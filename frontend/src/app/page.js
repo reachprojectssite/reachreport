@@ -144,7 +144,7 @@ export default function Home() {
       id: 1,
       title: "The Rise of AI in Creator Marketing",
       excerpt: "How artificial intelligence is transforming content creation and audience targeting.",
-      category: "Tech Trends", 
+      category: "Tech Trends",
       date: "May 15, 2025",
       image: "/images/ai-marketing.jpg"
     },
@@ -153,7 +153,7 @@ export default function Home() {
       title: "TikTok's Algorithm Update: What Creators Need to Know",
       excerpt: "Breaking down the latest changes and how to optimize your content strategy.",
       category: "Platform Updates",
-      date: "May 8, 2025", 
+      date: "May 8, 2025",
       image: "/images/tiktok-update.jpg"
     },
     {
@@ -168,16 +168,16 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-white">
-      {/* Repositioned background gradient elements with lower z-index to avoid covering key content */}
-      <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow -z-10" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium -z-10" />
-      <div className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60 animate-float-fast -z-10" />
-      <div className="absolute bottom-1/4 left-0 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60 animate-float-reverse -z-10" />
-      <div className="absolute top-3/4 left-1/4 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50 animate-pulse-slow -z-10" />
+      {/* Repositioned background gradient elements to avoid covering key content */}
+      <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium" />
+      <div className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60 animate-float-fast" />
+      <div className="absolute bottom-1/4 left-0 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60 animate-float-reverse" />
+      <div className="absolute top-3/4 left-1/4 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50 animate-pulse-slow" />
       
-      {/* Header with ring around REACH X Dylan Huey - increased z-index to ensure visibility */}
-      <header className="flex justify-between items-center p-5 relative z-20">
-        <div className="font-bold text-lg border rounded-full px-4 py-1 bg-white">REACH X Dylan Huey</div>
+      {/* Header with ring around REACH X Dylan Huey */}
+      <header className="flex justify-between items-center p-5">
+        <div className="font-bold text-lg border rounded-full px-4 py-1">REACH X Dylan Huey</div>
         <Button variant="outline" className="rounded-full">Archive</Button>
       </header>
       
