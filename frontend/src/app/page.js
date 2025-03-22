@@ -214,7 +214,7 @@ export default function Home() {
         
         {/* Subscription card with 3D effect */}
         <Card 
-          className="w-full max-w-md mx-auto p-5 sm:p-6 shadow-lg transition-all duration-300 bg-white relative overflow-hidden"
+          className="w-full max-w-md mx-auto p-5 sm:p-6 shadow-lg transition-all duration-300 bg-card text-card-foreground relative overflow-hidden"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
@@ -322,7 +322,7 @@ export default function Home() {
             {latestInsights.map((insight) => (
               <Card 
                 key={insight.id} 
-                className="overflow-hidden group hover:shadow-lg transition-all duration-300 border-t-2 border-transparent hover:border-t-2 hover:border-indigo-500"
+                className="overflow-hidden group hover:shadow-lg transition-all duration-300 border-t-2 border-transparent hover:border-t-2 hover:border-indigo-500 bg-card text-card-foreground"
               >
                 <div className="p-4 sm:p-5">
                   <div className="flex items-center justify-between mb-2 sm:mb-3">
@@ -366,7 +366,7 @@ export default function Home() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {/* Subscriber count card */}
-            <Card className="p-4 sm:p-6 border-t-4 border-indigo-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden z-20">
+            <Card className="p-4 sm:p-6 border-t-4 border-indigo-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden z-20 bg-card text-card-foreground">
               <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
                 <Users className="text-indigo-500" size={isMobile ? 18 : 24} />
                 <h3 className="font-bold text-base sm:text-lg">Growing Community</h3>
@@ -378,7 +378,7 @@ export default function Home() {
             </Card>
             
             {/* Company logos card */}
-            <Card className="p-4 sm:p-6 border-t-4 border-purple-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden z-20">
+            <Card className="p-4 sm:p-6 border-t-4 border-purple-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden z-20 bg-card text-card-foreground">
               <h3 className="font-bold text-base sm:text-lg mb-2 sm:mb-3">Read by executives from</h3>
               
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
