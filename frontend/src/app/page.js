@@ -22,6 +22,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -180,7 +181,10 @@ export default function Home() {
       {/* Header with ring around REACH X Dylan Huey */}
       <header className="flex justify-between items-center p-4 sm:p-5">
         <div className="font-bold text-base sm:text-lg border rounded-full px-3 py-1 sm:px-4 sm:py-1">REACH X Dylan Huey</div>
-        <Button variant="outline" className="rounded-full text-sm sm:text-base">Archive</Button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <Button variant="outline" className="rounded-full text-sm sm:text-base">Archive</Button>
+        </div>
       </header>
       
       {/* Main content */}
