@@ -12,13 +12,15 @@ import {
   Bell, 
   ArrowRight, 
   Clock, 
-  TrendingUp,
-  Zap,
-  ChevronRight
+  X, 
+  ChevronRight 
 } from "lucide-react";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -27,6 +29,12 @@ export default function Home() {
   const [isStatsVisible, setIsStatsVisible] = useState(false);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [isBellAnimated, setIsBellAnimated] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: ""
+  });
   const statsRef = useRef(null);
   
   const words = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
@@ -109,6 +117,27 @@ export default function Home() {
     e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
   };
 
+  const handleContactChange = (e) => {
+    const { name, value } = e.target;
+    setContactForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    // In a real app, you would send this data to your backend
+    console.log("Contact form submitted:", contactForm);
+    // Reset form
+    setContactForm({
+      name: "",
+      email: "",
+      phone: "",
+      message: ""
+    });
+  };
+
   // Mock data for latest insights
   const latestInsights = [
     {
@@ -123,7 +152,7 @@ export default function Home() {
       id: 2,
       title: "TikTok's Algorithm Update: What Creators Need to Know",
       excerpt: "Breaking down the latest changes and how to optimize your content strategy.",
-      category: "Platform Updates", 
+      category: "Platform Updates",
       date: "May 8, 2025",
       image: "/images/tiktok-update.jpg"
     },
@@ -410,7 +439,7 @@ export default function Home() {
         </Card>
       </main>
       
-      {/* Footer */}
+      {/* Footer with Contact popup */}
       <footer className="border-t border-gray-200 py-8 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
@@ -419,7 +448,7 @@ export default function Home() {
               <p className="text-sm text-gray-500">© 2025 All rights reserved.</p>
             </div>
             
-            <div className="flex items-center">
+            <div className="flex flex-col md:flex-row items-center gap-6">
               <a 
                 href="https://www.linkedin.com/in/dylanhuey40/" 
                 target="_blank" 
@@ -429,6 +458,75 @@ export default function Home() {
                 <span>LinkedIn</span>
                 <ExternalLink size={16} />
               </a>
+              
+              {/* Contact Dialog */}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button className="text-gray-600 hover:text-indigo-600 transition-colors">
+                    Contact
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="text-xl font-bold">Contact Us</DialogTitle>
+                    <DialogDescription className="text-sm text-gray-500">
+                      Send us a message and we'll get back to you soon.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <form onSubmit={handleContactSubmit} className="mt-4 space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Name</Label>
+                      <Input 
+                        id="name" 
+                        name="name" 
+                        value={contactForm.name} 
+                        onChange={handleContactChange} 
+                        required 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input 
+                        id="email" 
+                        name="email" 
+                        type="email" 
+                        value={contactForm.email} 
+                        onChange={handleContactChange} 
+                        required 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone Number</Label>
+                      <Input 
+                        id="phone" 
+                        name="phone" 
+                        type="tel" 
+                        value={contactForm.phone} 
+                        onChange={handleContactChange} 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="message">Message</Label>
+                      <Textarea 
+                        id="message" 
+                        name="message" 
+                        rows={4} 
+                        value={contactForm.message} 
+                        onChange={handleContactChange} 
+                        required 
+                      />
+                    </div>
+                    <div className="flex justify-end gap-2">
+                      <DialogClose asChild>
+                        <Button variant="outline" type="button">Cancel</Button>
+                      </DialogClose>
+                      <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white">
+                        Send Message
+                      </Button>
+                    </div>
+                  </form>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </div>
