@@ -81,6 +81,17 @@ h1, h2, h3, h4, h5, h6 {
   50% { opacity: 0.7; transform: scale(1.1); }
 }
 
+/* Bell animation */
+@keyframes bell {
+  0%, 100% { transform: rotate(0); }
+  10% { transform: rotate(15deg); }
+  20% { transform: rotate(-10deg); }
+  30% { transform: rotate(8deg); }
+  40% { transform: rotate(-5deg); }
+  50% { transform: rotate(3deg); }
+  60% { transform: rotate(0); }
+}
+
 .animate-float-slow {
   animation: float-slow 20s infinite ease-in-out;
 }
@@ -99,6 +110,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-pulse-slow {
   animation: pulse-slow 10s infinite ease-in-out;
+}
+
+.animate-bell {
+  animation: bell 1s ease-in-out;
 }
 
 /* Card hover effects */
