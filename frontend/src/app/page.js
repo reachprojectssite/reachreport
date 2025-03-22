@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Users, ExternalLink } from "lucide-react";
 
 export default function Home() {
@@ -91,13 +90,13 @@ export default function Home() {
       <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-blue-100 blur-3xl opacity-50" />
       <div className="absolute top-1/2 right-0 w-80 h-80 rounded-full bg-red-100 blur-3xl opacity-30" />
       
-      {/* Interactive grid background */}
-      <div className="absolute inset-0 opacity-5 pointer-events-none">
+      {/* Very subtle grid background */}
+      <div className="absolute inset-0 pointer-events-none">
         {Array.from({ length: 20 }).map((_, i) => (
-          <div key={i} className="absolute w-full h-px bg-black" style={{ top: `${i * 5}%` }} />
+          <div key={i} className="absolute w-full h-px bg-gray-100" style={{ top: `${i * 5}%` }} />
         ))}
         {Array.from({ length: 20 }).map((_, i) => (
-          <div key={i + 100} className="absolute h-full w-px bg-black" style={{ left: `${i * 5}%` }} />
+          <div key={i + 100} className="absolute h-full w-px bg-gray-100" style={{ left: `${i * 5}%` }} />
         ))}
       </div>
       
