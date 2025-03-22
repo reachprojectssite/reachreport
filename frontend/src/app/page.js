@@ -123,7 +123,7 @@ export default function Home() {
       id: 2,
       title: "TikTok's Algorithm Update: What Creators Need to Know",
       excerpt: "Breaking down the latest changes and how to optimize your content strategy.",
-      category: "Platform Updates",
+      category: "Platform Updates", 
       date: "May 8, 2025",
       image: "/images/tiktok-update.jpg"
     },
@@ -288,27 +288,23 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-center mb-10">Latest Insights</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {latestInsights.map((insight, index) => (
+            {latestInsights.map((insight) => (
               <Card 
                 key={insight.id} 
                 className="overflow-hidden group hover:shadow-lg transition-all duration-300 border-t-2 border-transparent hover:border-t-2 hover:border-indigo-500"
               >
-                <div className="h-40 bg-gray-100 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-400/20 via-purple-400/20 to-pink-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="absolute top-3 left-3 z-10">
-                    <Badge className="bg-white/90 text-gray-800 backdrop-blur-sm">
+                <div className="p-5">
+                  <div className="flex items-center justify-between mb-3">
+                    <Badge className="bg-indigo-100 text-indigo-800">
                       {insight.category}
                     </Badge>
-                  </div>
-                </div>
-                
-                <div className="p-5">
-                  <div className="flex items-center text-sm text-gray-500 mb-2">
-                    <Clock size={14} className="mr-1" />
-                    {insight.date}
+                    <div className="flex items-center text-sm text-gray-500">
+                      <Clock size={14} className="mr-1" />
+                      {insight.date}
+                    </div>
                   </div>
                   
-                  <h3 className="font-bold text-lg mb-2 group-hover:text-indigo-700 transition-colors duration-300">
+                  <h3 className="font-bold text-lg mb-3 group-hover:text-indigo-700 transition-colors duration-300">
                     {insight.title}
                   </h3>
                   
