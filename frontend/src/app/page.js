@@ -252,7 +252,7 @@ export default function Home() {
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
                 <Avatar className="w-48 h-48 border-4 border-white shadow-lg transition-transform duration-300 group-hover:scale-105">
-                  <AvatarImage src="/images/dylan-huey.jpg" alt="Dylan Huey" />
+                  <AvatarImage src="https://www.bu.edu/bhr/files/2024/04/1704348040324-636x636.jpg" alt="Dylan Huey" />
                   <AvatarFallback>DH</AvatarFallback>
                 </Avatar>
                 <div className="absolute -top-2 -right-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs px-2 py-1 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
