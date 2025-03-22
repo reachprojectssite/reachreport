@@ -4,13 +4,14 @@ import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Users, ExternalLink } from "lucide-react";
+import { Users, ExternalLink, Sparkles } from "lucide-react";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [currentWord, setCurrentWord] = useState(0);
   const [subscriberCount, setSubscriberCount] = useState(0);
   const [isStatsVisible, setIsStatsVisible] = useState(false);
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
   const statsRef = useRef(null);
   
   const words = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
@@ -85,20 +86,12 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-white">
-      {/* Background gradient elements */}
-      <div className="absolute top-20 left-20 w-64 h-64 rounded-full bg-purple-100 blur-3xl opacity-50" />
-      <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-blue-100 blur-3xl opacity-50" />
-      <div className="absolute top-1/2 right-0 w-80 h-80 rounded-full bg-red-100 blur-3xl opacity-30" />
-      
-      {/* Very subtle grid background */}
-      <div className="absolute inset-0 pointer-events-none">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div key={i} className="absolute w-full h-px bg-gray-100" style={{ top: `${i * 5}%` }} />
-        ))}
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div key={i + 100} className="absolute h-full w-px bg-gray-100" style={{ left: `${i * 5}%` }} />
-        ))}
-      </div>
+      {/* Enhanced animated background gradient elements */}
+      <div className="absolute top-20 left-20 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow" />
+      <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium" />
+      <div className="absolute top-1/3 right-10 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60 animate-float-fast" />
+      <div className="absolute bottom-1/3 left-10 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60 animate-float-reverse" />
+      <div className="absolute top-2/3 left-1/3 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50 animate-pulse-slow" />
       
       {/* Header */}
       <header className="flex justify-between items-center p-5">
@@ -137,7 +130,7 @@ export default function Home() {
         
         {/* Subscription card with 3D effect */}
         <Card 
-          className="max-w-md mx-auto p-6 shadow-lg transition-all duration-300 bg-white"
+          className="max-w-md mx-auto p-6 shadow-lg transition-all duration-300 bg-white relative overflow-hidden"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
@@ -146,7 +139,7 @@ export default function Home() {
             <p className="text-gray-600">Get the latest insights biweekly.</p>
           </div>
           
-          <div className="space-y-4">
+          <div className="space-y-4 relative z-10">
             <Input 
               type="email" 
               placeholder="your@email.com" 
@@ -154,12 +147,35 @@ export default function Home() {
               onChange={(e) => setEmail(e.target.value)}
               className="rounded-md"
             />
-            <Button 
-              className="w-full bg-black text-white hover:bg-gray-800 transition-all duration-300"
-            >
-              Subscribe for free
-            </Button>
+            <div className="relative">
+              <Button 
+                className={`w-full bg-black text-white transition-all duration-500 overflow-hidden group ${
+                  isButtonHovered ? 'shadow-[0_0_15px_rgba(0,0,0,0.3)]' : ''
+                }`}
+                onMouseEnter={() => setIsButtonHovered(true)}
+                onMouseLeave={() => setIsButtonHovered(false)}
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  Subscribe for free
+                  <Sparkles 
+                    size={16} 
+                    className={`transition-all duration-500 ${
+                      isButtonHovered ? 'opacity-100 rotate-12 scale-110' : 'opacity-0'
+                    }`}
+                  />
+                </span>
+                <span className={`absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></span>
+              </Button>
+              
+              {/* Interactive button glow effect */}
+              <div className={`absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 blur-xl opacity-0 transition-opacity duration-500 ${
+                isButtonHovered ? 'opacity-30' : ''
+              }`}></div>
+            </div>
           </div>
+          
+          {/* Card background glow effect */}
+          <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 blur-2xl opacity-30"></div>
         </Card>
         
         {/* Why Join Our Community Section */}
@@ -168,7 +184,7 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Subscriber count card */}
-            <Card className="p-6 border-t-4 border-indigo-500 hover:shadow-lg transition-all duration-300 group">
+            <Card className="p-6 border-t-4 border-indigo-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
               <div className="flex items-center gap-3 mb-2">
                 <Users className="text-indigo-500" />
                 <h3 className="font-bold text-lg">Growing Community</h3>
@@ -178,11 +194,11 @@ export default function Home() {
               </div>
               <p className="text-gray-600">subscribers and counting</p>
               
-              <div className="absolute -bottom-3 -right-3 w-20 h-20 rounded-full bg-indigo-100 opacity-0 group-hover:opacity-50 transition-all duration-500 blur-xl" />
+              <div className="absolute -bottom-3 -right-3 w-32 h-32 rounded-full bg-indigo-200 opacity-0 group-hover:opacity-70 transition-all duration-500 blur-xl" />
             </Card>
             
             {/* Company logos card */}
-            <Card className="p-6 border-t-4 border-purple-500 hover:shadow-lg transition-all duration-300 group">
+            <Card className="p-6 border-t-4 border-purple-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
               <h3 className="font-bold text-lg mb-3">Read by executives from</h3>
               
               <div className="grid grid-cols-3 gap-3">
@@ -201,19 +217,19 @@ export default function Home() {
                 ))}
               </div>
               
-              <div className="absolute -bottom-3 -right-3 w-20 h-20 rounded-full bg-purple-100 opacity-0 group-hover:opacity-50 transition-all duration-500 blur-xl" />
+              <div className="absolute -bottom-3 -right-3 w-32 h-32 rounded-full bg-purple-200 opacity-0 group-hover:opacity-70 transition-all duration-500 blur-xl" />
             </Card>
           </div>
         </div>
         
         {/* Final CTA */}
-        <Card className="max-w-md mx-auto p-6 shadow-lg mt-20 bg-gradient-to-br from-white to-gray-50">
+        <Card className="max-w-md mx-auto p-6 shadow-lg mt-20 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
           <div className="mb-6">
             <h3 className="text-xl font-bold mb-2">Never miss an update</h3>
             <p className="text-gray-600">Get the latest insights biweekly.</p>
           </div>
           
-          <div className="space-y-4">
+          <div className="space-y-4 relative z-10">
             <Input 
               type="email" 
               placeholder="your@email.com" 
@@ -222,11 +238,14 @@ export default function Home() {
               className="rounded-md"
             />
             <Button 
-              className="w-full bg-black text-white hover:bg-gray-800"
+              className="w-full bg-black text-white hover:bg-gray-800 group relative overflow-hidden"
             >
-              Subscribe for free
+              <span className="relative z-10">Subscribe for free</span>
+              <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
             </Button>
           </div>
+          
+          <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 blur-2xl opacity-30"></div>
         </Card>
       </main>
       
