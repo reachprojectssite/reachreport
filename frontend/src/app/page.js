@@ -123,7 +123,7 @@ export default function Home() {
       id: 2,
       title: "TikTok's Algorithm Update: What Creators Need to Know",
       excerpt: "Breaking down the latest changes and how to optimize your content strategy.",
-      category: "Platform Updates", 
+      category: "Platform Updates",
       date: "May 8, 2025",
       image: "/images/tiktok-update.jpg"
     },
@@ -139,16 +139,16 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-white">
-      {/* Enhanced animated background gradient elements */}
-      <div className="absolute top-20 left-20 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow" />
-      <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium" />
-      <div className="absolute top-1/3 right-10 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60 animate-float-fast" />
-      <div className="absolute bottom-1/3 left-10 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60 animate-float-reverse" />
-      <div className="absolute top-2/3 left-1/3 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50 animate-pulse-slow" />
+      {/* Repositioned background gradient elements to avoid covering key content */}
+      <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium" />
+      <div className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60 animate-float-fast" />
+      <div className="absolute bottom-1/4 left-0 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60 animate-float-reverse" />
+      <div className="absolute top-3/4 left-1/4 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50 animate-pulse-slow" />
       
-      {/* Header */}
+      {/* Header with ring around REACH X Dylan Huey */}
       <header className="flex justify-between items-center p-5">
-        <div className="font-bold text-lg">REACH X Dylan Huey</div>
+        <div className="font-bold text-lg border rounded-full px-4 py-1">REACH X Dylan Huey</div>
         <Button variant="outline" className="rounded-full">Archive</Button>
       </header>
       
@@ -201,7 +201,10 @@ export default function Home() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="rounded-md pr-6"
               />
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-green-500 rounded-full"></div>
+              {/* Interactive green dot - changes color based on input */}
+              <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full transition-colors duration-300 ${
+                email.length > 0 ? 'bg-green-500' : 'bg-gray-300'
+              }`}></div>
             </div>
             <div className="relative">
               <Button 
@@ -330,16 +333,13 @@ export default function Home() {
           </div>
         </div>
         
-        {/* Why Join Our Community Section */}
-        <div ref={statsRef} className="mt-32 mb-20 relative">
-          <div className="absolute -top-10 left-10 w-40 h-40 rounded-full bg-yellow-100 blur-3xl opacity-30 animate-float-reverse"></div>
-          <div className="absolute -bottom-10 right-10 w-40 h-40 rounded-full bg-indigo-100 blur-3xl opacity-30 animate-float-fast"></div>
-          
+        {/* Why Join Our Community Section - No background gradients to ensure content visibility */}
+        <div ref={statsRef} className="mt-32 mb-20 relative z-20">
           <h2 className="text-2xl font-bold text-center mb-10">Why Join Our Community?</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Subscriber count card */}
-            <Card className="p-6 border-t-4 border-indigo-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
+            <Card className="p-6 border-t-4 border-indigo-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden z-20">
               <div className="flex items-center gap-3 mb-2">
                 <Users className="text-indigo-500" />
                 <h3 className="font-bold text-lg">Growing Community</h3>
@@ -348,12 +348,10 @@ export default function Home() {
                 {subscriberCount.toLocaleString()}+
               </div>
               <p className="text-gray-600">subscribers and counting</p>
-              
-              <div className="absolute -bottom-3 -right-3 w-32 h-32 rounded-full bg-indigo-200 opacity-0 group-hover:opacity-70 transition-all duration-500 blur-xl" />
             </Card>
             
             {/* Company logos card */}
-            <Card className="p-6 border-t-4 border-purple-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
+            <Card className="p-6 border-t-4 border-purple-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden z-20">
               <h3 className="font-bold text-lg mb-3">Read by executives from</h3>
               
               <div className="grid grid-cols-3 gap-3">
@@ -371,8 +369,6 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-              
-              <div className="absolute -bottom-3 -right-3 w-32 h-32 rounded-full bg-purple-200 opacity-0 group-hover:opacity-70 transition-all duration-500 blur-xl" />
             </Card>
           </div>
         </div>
@@ -393,13 +389,19 @@ export default function Home() {
           </div>
           
           <div className="space-y-4 relative z-10">
-            <Input 
-              type="email" 
-              placeholder="your@email.com" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 transition-all duration-300"
-            />
+            <div className="relative">
+              <Input 
+                type="email" 
+                placeholder="your@email.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="rounded-md pr-6"
+              />
+              {/* Interactive green dot - changes color based on input */}
+              <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full transition-colors duration-300 ${
+                email.length > 0 ? 'bg-green-500' : 'bg-gray-300'
+              }`}></div>
+            </div>
             <Button 
               className="w-full bg-black text-white hover:bg-gray-800 group relative overflow-hidden"
             >
