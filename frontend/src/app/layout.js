@@ -2,7 +2,7 @@
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ToasterProvider } from "@/components/providers/toaster-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 // Optimize font loading
 const geistSans = Geist({
@@ -57,7 +57,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="antialiased">
         {children}
-        <ToasterProvider />
+        <Toaster />
       </body>
     </html>
   );
