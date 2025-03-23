@@ -5,7 +5,14 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Users, Sparkles, Bell, ArrowRight, Clock, X, ChevronRight } from "lucide-react";
+import { 
+  Users, 
+  Sparkles, 
+  Bell, 
+  ArrowRight, 
+  Clock, 
+  ChevronRight 
+} from "lucide-react";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -21,10 +28,9 @@ export default function Home() {
   const [isBellAnimated, setIsBellAnimated] = useState(false);
   const statsRef = useRef(null);
   const isMobile = useIsMobile();
-  const beehiivRef = useRef(null);
-
+  
   const words = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
-
+  
   // Word rotation effect
   useEffect(() => {
     const interval = setInterval(() => {
@@ -83,20 +89,32 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  // Initialize beehiiv when component mounts
+  useEffect(() => {
+    // Initialize beehiiv with your publication ID
+    if (window.beehiiv) {
+      window.beehiiv('init', {
+        publicationId: '32491422-c94a-40b2-baec-c90cbb498271',
+      });
+    }
+  }, []);
+
   const handleSubscribe = async (e) => {
     e.preventDefault();
     
-    // Find the beehiiv iframe's submit button and click it
-    const iframe = beehiivRef.current;
-    if (iframe) {
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-      const emailInput = iframeDoc.querySelector('input[type="email"]');
-      const submitButton = iframeDoc.querySelector('button[type="submit"]');
-      
-      if (emailInput && submitButton) {
-        emailInput.value = email;
-        submitButton.click();
-      }
+    // Trigger beehiiv subscription with the email
+    if (window.beehiiv && email) {
+      window.beehiiv('subscribe', {
+        email: email,
+        publicationId: '32491422-c94a-40b2-baec-c90cbb498271',
+        onSuccess: () => {
+          console.log('Subscription successful');
+          setEmail('');
+        },
+        onError: (err) => {
+          console.error('Subscription error:', err);
+        }
+      });
     }
     
     // Keep your existing animation logic
@@ -154,19 +172,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-white">
-      {/* Hidden beehiiv iframe */}
-      <iframe 
-        ref={beehiivRef}
-        src="https://embeds.beehiiv.com/32491422-c94a-40b2-baec-c90cbb498271"
-        style={{ 
-          position: 'absolute', 
-          width: 0, 
-          height: 0, 
-          border: 'none', 
-          visibility: 'hidden' 
-        }}
-      />
-
       {/* Repositioned background gradient elements to avoid covering key content */}
       <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow" />
       <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium" />
