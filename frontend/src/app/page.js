@@ -27,6 +27,7 @@ export default function Home() {
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [isBellAnimated, setIsBellAnimated] = useState(false);
   const statsRef = useRef(null);
+  const iframeRef = useRef(null);
   const isMobile = useIsMobile();
   
   const words = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
@@ -89,29 +90,30 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Initialize beehiiv when component mounts
-  useEffect(() => {
-    // Initialize beehiiv with your publication ID
-    if (window.beehiiv) {
-      window.beehiiv('init', {
-        publicationId: '32491422-c94a-40b2-baec-c90cbb498271',
-      });
-    }
-  }, []);
-
   const handleSubscribe = async (e) => {
     e.preventDefault();
     
-    // Trigger beehiiv subscription
-    if (window.beehiiv) {
-      window.beehiiv.openSubscribeModal();
-    } else {
-      console.error('Beehiiv script not loaded');
+    // Find the iframe's email input and submit button
+    if (iframeRef.current) {
+      try {
+        // Store the email for retry mechanism
+        const emailToSubmit = email;
+        
+        // Reset form immediately for better UX
+        setEmail('');
+        
+        // Trigger bell animation
+        setIsBellAnimated(true);
+        setTimeout(() => setIsBellAnimated(false), 1000);
+        
+        // Create a new tab with the subscription URL and email param
+        const subscribeUrl = `https://embeds.beehiiv.com/32491422-c94a-40b2-baec-c90cbb498271?email=${encodeURIComponent(emailToSubmit)}`;
+        window.open(subscribeUrl, '_blank');
+      } catch (error) {
+        console.error('Subscription error:', error);
+        // Optionally show an error message to the user
+      }
     }
-    
-    // Keep your existing animation
-    setIsBellAnimated(true);
-    setTimeout(() => setIsBellAnimated(false), 1000);
   };
 
   // Interactive card effect
@@ -164,6 +166,15 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-white">
+      {/* Hidden beehiiv iframe */}
+      <iframe 
+        ref={iframeRef}
+        src="https://embeds.beehiiv.com/32491422-c94a-40b2-baec-c90cbb498271"
+        className="absolute -left-[9999px] -top-[9999px] w-0 h-0 opacity-0 pointer-events-none"
+        tabIndex="-1"
+        aria-hidden="true"
+      />
+
       {/* Repositioned background gradient elements to avoid covering key content */}
       <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow" />
       <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium" />
