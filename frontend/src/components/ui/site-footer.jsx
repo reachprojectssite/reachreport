@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 const SiteFooter = ({ isMobile }) => {
   const [contactForm, setContactForm] = useState({
     name: "",
-    email: "",
+    email: "", 
     phone: "",
     message: ""
   });
@@ -157,6 +157,109 @@ const SiteFooter = ({ isMobile }) => {
                   <h3 className="font-bold mt-6 mb-2">CONTACT US</h3>
                   <p className="mb-4">
                     IF YOU HAVE QUESTIONS OR WISH TO EXERCISE YOUR RIGHTS UNDER THIS POLICY, PLEASE CONTACT:
+                  </p>
+                  <p className="mb-4">
+                    REACH PROJECTS, INC.<br />
+                    EMAIL: POSTMASTER@REACHPROJECTS.CO
+                  </p>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            {/* Terms of Service Dialog */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <button className="text-gray-600 hover:text-indigo-600 transition-colors text-sm sm:text-base">
+                  Terms of Service
+                </button>
+              </DialogTrigger>
+              <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto mx-4 sm:mx-auto">
+                <DialogHeader>
+                  <DialogTitle className="text-lg sm:text-xl font-bold">Terms of Service for The REACH Report × Dylan Huey</DialogTitle>
+                  <DialogDescription className="text-xs sm:text-sm text-gray-500">Effective Date: January 1, 2025</DialogDescription>
+                </DialogHeader>
+                <div className="mt-4 text-xs sm:text-sm">
+                  <p className="mb-4">
+                    THESE TERMS OF SERVICE ("TERMS") GOVERN YOUR ACCESS TO AND USE OF THE REACH REPORT × DYLAN HUEY NEWSLETTER ("NEWSLETTER"). BY SUBSCRIBING TO OR USING THE NEWSLETTER, YOU AGREE TO BE BOUND BY THESE TERMS.
+                  </p>
+                  
+                  <h3 className="font-bold mt-6 mb-2">ACCEPTANCE OF TERMS</h3>
+                  <p className="mb-4">
+                    BY SUBSCRIBING TO THE NEWSLETTER, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THESE TERMS. IF YOU DO NOT AGREE TO THESE TERMS, DO NOT SUBSCRIBE TO OR USE THE NEWSLETTER.
+                  </p>
+                  
+                  <h3 className="font-bold mt-6 mb-2">NEWSLETTER DESCRIPTION</h3>
+                  <p className="mb-4">
+                    THE REACH REPORT × DYLAN HUEY IS A BIWEEKLY NEWSLETTER PROVIDING INFORMATION, ANALYSIS, AND INSIGHTS RELATED TO MARKETING, SOCIAL MEDIA, AND THE CREATOR ECONOMY. THE NEWSLETTER IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND.
+                  </p>
+                  
+                  <h3 className="font-bold mt-6 mb-2">SUBSCRIPTION AND DELIVERY</h3>
+                  <p className="mb-4">
+                    TO RECEIVE THE NEWSLETTER, YOU MUST PROVIDE A VALID EMAIL ADDRESS. WE WILL SEND THE NEWSLETTER TO THE EMAIL ADDRESS YOU PROVIDE. YOU ARE RESPONSIBLE FOR ENSURING THAT YOUR EMAIL ADDRESS IS ACCURATE AND REMAINS CURRENT.
+                  </p>
+                  
+                  <h3 className="font-bold mt-6 mb-2">INTELLECTUAL PROPERTY RIGHTS</h3>
+                  <p className="mb-4">
+                    ALL CONTENT IN THE NEWSLETTER, INCLUDING BUT NOT LIMITED TO TEXT, GRAPHICS, LOGOS, IMAGES, AND DATA COMPILATIONS, IS THE PROPERTY OF REACH PROJECTS, INC. OR ITS CONTENT SUPPLIERS AND IS PROTECTED BY UNITED STATES AND INTERNATIONAL COPYRIGHT LAWS.
+                  </p>
+                  <p className="mb-4">
+                    YOU MAY NOT REPRODUCE, DISTRIBUTE, MODIFY, CREATE DERIVATIVE WORKS OF, PUBLICLY DISPLAY, PUBLICLY PERFORM, REPUBLISH, DOWNLOAD, STORE, OR TRANSMIT ANY CONTENT FROM THE NEWSLETTER WITHOUT OUR PRIOR WRITTEN CONSENT, EXCEPT FOR:
+                  </p>
+                  <ul className="list-disc pl-6 mb-4 space-y-1">
+                    <li>TEMPORARY STORAGE OF COPIES SOLELY AS NECESSARY TO VIEW THE NEWSLETTER</li>
+                    <li>STORING FILES AUTOMATICALLY CACHED BY YOUR WEB BROWSER FOR DISPLAY ENHANCEMENT PURPOSES</li>
+                    <li>PRINTING A REASONABLE NUMBER OF PAGES FROM THE NEWSLETTER FOR PERSONAL, NON-COMMERCIAL USE</li>
+                  </ul>
+                  
+                  <h3 className="font-bold mt-6 mb-2">USER CONDUCT</h3>
+                  <p className="mb-4">
+                    YOU AGREE NOT TO USE THE NEWSLETTER:
+                  </p>
+                  <ul className="list-disc pl-6 mb-4 space-y-1">
+                    <li>IN ANY WAY THAT VIOLATES APPLICABLE LAWS OR REGULATIONS</li>
+                    <li>TO IMPERSONATE OR ATTEMPT TO IMPERSONATE REACH PROJECTS, INC., ITS EMPLOYEES, OR OTHER USERS</li>
+                    <li>TO ENGAGE IN ANY CONDUCT THAT RESTRICTS OR INHIBITS ANYONE'S USE OF THE NEWSLETTER</li>
+                    <li>TO ATTEMPT TO GAIN UNAUTHORIZED ACCESS TO THE NEWSLETTER OR RELATED SYSTEMS</li>
+                  </ul>
+                  
+                  <h3 className="font-bold mt-6 mb-2">THIRD-PARTY LINKS</h3>
+                  <p className="mb-4">
+                    THE NEWSLETTER MAY CONTAIN LINKS TO THIRD-PARTY WEBSITES OR SERVICES THAT ARE NOT OWNED OR CONTROLLED BY REACH PROJECTS, INC. WE HAVE NO CONTROL OVER, AND ASSUME NO RESPONSIBILITY FOR, THE CONTENT, PRIVACY POLICIES, OR PRACTICES OF ANY THIRD-PARTY WEBSITES OR SERVICES.
+                  </p>
+                  
+                  <h3 className="font-bold mt-6 mb-2">DISCLAIMER OF WARRANTIES</h3>
+                  <p className="mb-4">
+                    THE NEWSLETTER IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS, WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. REACH PROJECTS, INC. DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+                  </p>
+                  
+                  <h3 className="font-bold mt-6 mb-2">LIMITATION OF LIABILITY</h3>
+                  <p className="mb-4">
+                    IN NO EVENT SHALL REACH PROJECTS, INC., ITS OFFICERS, DIRECTORS, EMPLOYEES, OR AGENTS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF OR RELATED TO YOUR USE OF THE NEWSLETTER.
+                  </p>
+                  
+                  <h3 className="font-bold mt-6 mb-2">INDEMNIFICATION</h3>
+                  <p className="mb-4">
+                    YOU AGREE TO INDEMNIFY, DEFEND, AND HOLD HARMLESS REACH PROJECTS, INC. AND ITS OFFICERS, DIRECTORS, EMPLOYEES, AND AGENTS FROM AND AGAINST ANY CLAIMS, LIABILITIES, DAMAGES, JUDGMENTS, AWARDS, LOSSES, COSTS, EXPENSES, OR FEES ARISING OUT OF OR RELATING TO YOUR VIOLATION OF THESE TERMS.
+                  </p>
+                  
+                  <h3 className="font-bold mt-6 mb-2">TERMINATION</h3>
+                  <p className="mb-4">
+                    WE MAY TERMINATE OR SUSPEND YOUR ACCESS TO THE NEWSLETTER IMMEDIATELY, WITHOUT PRIOR NOTICE, FOR ANY REASON WHATSOEVER, INCLUDING WITHOUT LIMITATION IF YOU BREACH THESE TERMS.
+                  </p>
+                  
+                  <h3 className="font-bold mt-6 mb-2">CHANGES TO TERMS</h3>
+                  <p className="mb-4">
+                    WE RESERVE THE RIGHT TO MODIFY OR REPLACE THESE TERMS AT ANY TIME. IF A REVISION IS MATERIAL, WE WILL PROVIDE AT LEAST 30 DAYS' NOTICE PRIOR TO ANY NEW TERMS TAKING EFFECT. WHAT CONSTITUTES A MATERIAL CHANGE WILL BE DETERMINED AT OUR SOLE DISCRETION.
+                  </p>
+                  
+                  <h3 className="font-bold mt-6 mb-2">GOVERNING LAW</h3>
+                  <p className="mb-4">
+                    THESE TERMS SHALL BE GOVERNED BY AND CONSTRUED IN ACCORDANCE WITH THE LAWS OF THE STATE OF CALIFORNIA, WITHOUT REGARD TO ITS CONFLICT OF LAW PROVISIONS.
+                  </p>
+                  
+                  <h3 className="font-bold mt-6 mb-2">CONTACT US</h3>
+                  <p className="mb-4">
+                    IF YOU HAVE ANY QUESTIONS ABOUT THESE TERMS, PLEASE CONTACT US AT:
                   </p>
                   <p className="mb-4">
                     REACH PROJECTS, INC.<br />
