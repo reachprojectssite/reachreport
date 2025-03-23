@@ -1,23 +1,116 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, memo, useCallback } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Users, 
-  Sparkles, 
-  Bell, 
-  ArrowRight, 
-  Clock, 
-  ChevronRight 
-} from "lucide-react";
+import dynamic from 'next/dynamic';
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
-import SiteFooter from "@/components/ui/site-footer";
+
+// Dynamically import icons to reduce initial bundle size
+const Users = dynamic(() => import('lucide-react').then(mod => mod.Users), { ssr: false });
+const Sparkles = dynamic(() => import('lucide-react').then(mod => mod.Sparkles), { ssr: false });
+const Bell = dynamic(() => import('lucide-react').then(mod => mod.Bell), { ssr: false });
+const ArrowRight = dynamic(() => import('lucide-react').then(mod => mod.ArrowRight), { ssr: false });
+const Clock = dynamic(() => import('lucide-react').then(mod => mod.Clock), { ssr: false });
+const ChevronRight = dynamic(() => import('lucide-react').then(mod => mod.ChevronRight), { ssr: false });
+
+// Lazy load the footer component
+const SiteFooter = dynamic(() => import('@/components/ui/site-footer'), {
+  ssr: false,
+  loading: () => <footer className="border-t border-gray-200 py-6 sm:py-8 px-4"></footer>
+});
+
+// Memoized components for better performance
+const HeroSection = memo(({ currentWord, words }) => (
+  <div className="text-center mb-12 sm:mb-16">
+    <p className="text-gray-500 uppercase tracking-wider text-xs sm:text-sm mb-2">FOR THE NEXT GENERATION OF</p>
+    <h1 className="text-4xl sm:text-6xl font-bold mb-4 relative h-16 sm:h-24 flex items-center justify-center">
+      {words.map((word, index) => (
+        <span 
+          key={word}
+          className="absolute inset-0 flex justify-center items-center opacity-0 transition-opacity duration-500" 
+          style={{ opacity: currentWord === index ? 1 : 0 }}
+        >
+          {word}
+        </span>
+      ))}
+    </h1>
+    <h2 className="text-xl sm:text-3xl font-medium flex items-center justify-center gap-1 sm:gap-2">
+      The REACH Report <span className="text-gray-400">×</span> Dylan Huey
+      <span className="text-yellow-400 text-xl sm:text-2xl">✧</span>
+    </h2>
+  </div>
+));
+
+HeroSection.displayName = 'HeroSection';
+
+const InsightCard = memo(({ insight, isMobile }) => (
+  <Card 
+    key={insight.id} 
+    className="overflow-hidden group hover:shadow-lg transition-all duration-300 border-t-2 border-transparent hover:border-t-2 hover:border-indigo-500"
+  >
+    <div className="p-4 sm:p-5">
+      <div className="flex items-center justify-between mb-2 sm:mb-3">
+        <Badge className="bg-indigo-100 text-indigo-800 text-xs py-0.5">
+          {insight.category}
+        </Badge>
+        <div className="flex items-center text-xs sm:text-sm text-gray-500">
+          <Clock size={12} className="mr-1" />
+          {insight.date}
+        </div>
+      </div>
+
+      <h3 className="font-bold text-base sm:text-lg mb-2 sm:mb-3 group-hover:text-indigo-700 transition-colors duration-300">
+        {insight.title}
+      </h3>
+
+      <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">
+        {insight.excerpt}
+      </p>
+
+      <div className="flex items-center text-indigo-600 text-xs sm:text-sm font-medium group-hover:text-indigo-800 transition-colors duration-300">
+        Read more
+        <ArrowRight size={12} className="ml-1 transition-transform duration-300 group-hover:translate-x-1" />
+      </div>
+    </div>
+  </Card>
+));
+
+InsightCard.displayName = 'InsightCard';
+
+// Pre-defined static data
+const WORDS = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
+const LATEST_INSIGHTS = [
+  {
+    id: 1,
+    title: "The Rise of AI in Creator Marketing",
+    excerpt: "How artificial intelligence is transforming content creation and audience targeting.",
+    category: "Tech Trends", 
+    date: "May 15, 2025",
+    image: "/images/ai-marketing.jpg"
+  },
+  {
+    id: 2,
+    title: "TikTok's Algorithm Update: What Creators Need to Know",
+    excerpt: "Breaking down the latest changes and how to optimize your content strategy.",
+    category: "Platform Updates",
+    date: "May 8, 2025",
+    image: "/images/tiktok-update.jpg"
+  },
+  {
+    id: 3,
+    title: "Monetization Strategies for Micro-Influencers",
+    excerpt: "Effective ways to generate revenue with audiences under 100K followers.",
+    category: "Monetization",
+    date: "May 1, 2025",
+    image: "/images/monetization.jpg"
+  }
+];
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -30,30 +123,28 @@ export default function Home() {
   const iframeRef = useRef(null);
   const isMobile = useIsMobile();
   
-  const words = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
-  
-  // Word rotation effect
+  // Word rotation effect - optimized with useCallback
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentWord((prev) => (prev + 1) % words.length);
+      setCurrentWord((prev) => (prev + 1) % WORDS.length);
     }, 2000);
     return () => clearInterval(interval);
   }, []);
 
-  // Subscriber counter animation
+  // Subscriber counter animation - optimized with IntersectionObserver
   useEffect(() => {
+    if (!statsRef.current) return;
+    
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
           setIsStatsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: '100px' }
     );
     
-    if (statsRef.current) {
-      observer.observe(statsRef.current);
-    }
+    observer.observe(statsRef.current);
     
     return () => {
       if (statsRef.current) {
@@ -62,25 +153,31 @@ export default function Home() {
     };
   }, []);
 
-  // Animate subscriber count
+  // Animate subscriber count - optimized with requestAnimationFrame
   useEffect(() => {
-    if (isStatsVisible) {
-      const interval = setInterval(() => {
-        setSubscriberCount((prev) => {
-          const next = prev + 100;
-          if (next >= 10000) {
-            clearInterval(interval);
-            return 10000;
-          }
-          return next;
-        });
-      }, 20);
+    if (!isStatsVisible) return;
+    
+    let start = 0;
+    const end = 10000;
+    const duration = 2000;
+    let startTime = null;
+    
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const value = Math.floor(progress * (end - start) + start);
       
-      return () => clearInterval(interval);
-    }
+      setSubscriberCount(value);
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    
+    requestAnimationFrame(animate);
   }, [isStatsVisible]);
 
-  // Bell animation
+  // Bell animation - optimized with useCallback
   useEffect(() => {
     const interval = setInterval(() => {
       setIsBellAnimated(true);
@@ -90,7 +187,8 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSubscribe = async (e) => {
+  // Memoize event handlers
+  const handleSubscribe = useCallback(async (e) => {
     e.preventDefault();
     
     // Find the iframe's email input and submit button
@@ -114,10 +212,10 @@ export default function Home() {
         // Optionally show an error message to the user
       }
     }
-  };
+  }, [email]);
 
-  // Interactive card effect
-  const handleMouseMove = (e) => {
+  // Memoize event handlers for better performance
+  const handleMouseMove = useCallback((e) => {
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -130,57 +228,42 @@ export default function Home() {
     const rotateY = (centerX - x) / 20;
     
     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  };
+  }, []);
 
-  const handleMouseLeave = (e) => {
+  const handleMouseLeave = useCallback((e) => {
     e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-  };
+  }, []);
 
-  // Mock data for latest insights
-  const latestInsights = [
-    {
-      id: 1,
-      title: "The Rise of AI in Creator Marketing",
-      excerpt: "How artificial intelligence is transforming content creation and audience targeting.",
-      category: "Tech Trends", 
-      date: "May 15, 2025",
-      image: "/images/ai-marketing.jpg"
-    },
-    {
-      id: 2,
-      title: "TikTok's Algorithm Update: What Creators Need to Know",
-      excerpt: "Breaking down the latest changes and how to optimize your content strategy.",
-      category: "Platform Updates",
-      date: "May 8, 2025",
-      image: "/images/tiktok-update.jpg"
-    },
-    {
-      id: 3,
-      title: "Monetization Strategies for Micro-Influencers",
-      excerpt: "Effective ways to generate revenue with audiences under 100K followers.",
-      category: "Monetization",
-      date: "May 1, 2025",
-      image: "/images/monetization.jpg"
-    }
-  ];
+  const handleEmailChange = useCallback((e) => {
+    setEmail(e.target.value);
+  }, []);
+
+  const handleButtonHoverEnter = useCallback(() => {
+    setIsButtonHovered(true);
+  }, []);
+
+  const handleButtonHoverLeave = useCallback(() => {
+    setIsButtonHovered(false);
+  }, []);
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-white">
-      {/* Hidden beehiiv iframe */}
+      {/* Hidden beehiiv iframe - loaded with low priority */}
       <iframe 
         ref={iframeRef}
         src="https://embeds.beehiiv.com/32491422-c94a-40b2-baec-c90cbb498271"
         className="absolute -left-[9999px] -top-[9999px] w-0 h-0 opacity-0 pointer-events-none"
         tabIndex="-1"
         aria-hidden="true"
+        loading="lazy"
       />
 
       {/* Repositioned background gradient elements to avoid covering key content */}
-      <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium" />
-      <div className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60 animate-float-fast" />
-      <div className="absolute bottom-1/4 left-0 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60 animate-float-reverse" />
-      <div className="absolute top-3/4 left-1/4 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50 animate-pulse-slow" />
+      <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow will-change-transform" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium will-change-transform" />
+      <div className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60 animate-float-fast will-change-transform" />
+      <div className="absolute bottom-1/4 left-0 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60 animate-float-reverse will-change-transform" />
+      <div className="absolute top-3/4 left-1/4 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50 animate-pulse-slow will-change-opacity" />
 
       {/* Header with ring around REACH X Dylan Huey */}
       <header className="flex justify-between items-center p-4 sm:p-5">
@@ -190,32 +273,8 @@ export default function Home() {
 
       {/* Main content */}
       <main className="w-full max-w-4xl mx-auto px-4 pt-12 sm:pt-20 pb-20 sm:pb-32 relative z-10">
-        {/* Hero Section */}
-        <div className="text-center mb-12 sm:mb-16">
-          <p className="text-gray-500 uppercase tracking-wider text-xs sm:text-sm mb-2">FOR THE NEXT GENERATION OF</p>
-          <h1 className="text-4xl sm:text-6xl font-bold mb-4 relative h-16 sm:h-24 flex items-center justify-center">
-            <span className="absolute inset-0 flex justify-center items-center opacity-0 transition-opacity duration-500" 
-                  style={{ opacity: currentWord === 0 ? 1 : 0 }}>
-              {words[0]}
-            </span>
-            <span className="absolute inset-0 flex justify-center items-center opacity-0 transition-opacity duration-500" 
-                  style={{ opacity: currentWord === 1 ? 1 : 0 }}>
-              {words[1]}
-            </span>
-            <span className="absolute inset-0 flex justify-center items-center opacity-0 transition-opacity duration-500" 
-                  style={{ opacity: currentWord === 2 ? 1 : 0 }}>
-              {words[2]}
-            </span>
-            <span className="absolute inset-0 flex justify-center items-center opacity-0 transition-opacity duration-500" 
-                  style={{ opacity: currentWord === 3 ? 1 : 0 }}>
-              {words[3]}
-            </span>
-          </h1>
-          <h2 className="text-xl sm:text-3xl font-medium flex items-center justify-center gap-1 sm:gap-2">
-            The REACH Report <span className="text-gray-400">×</span> Dylan Huey
-            <span className="text-yellow-400 text-xl sm:text-2xl">✧</span>
-          </h2>
-        </div>
+        {/* Hero Section - Memoized */}
+        <HeroSection currentWord={currentWord} words={WORDS} />
 
         {/* Subscription card with 3D effect */}
         <Card 
@@ -234,7 +293,7 @@ export default function Home() {
                 type="email" 
                 placeholder="your@email.com" 
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
                 className="rounded-md pr-6 h-10 sm:h-auto"
               />
               {/* Interactive green dot - changes color based on input */}
@@ -248,8 +307,8 @@ export default function Home() {
                 className={`w-full bg-black text-white transition-all duration-500 overflow-hidden group h-10 sm:h-auto ${
                   isButtonHovered ? 'shadow-[0_0_15px_rgba(0,0,0,0.3)]' : ''
                 }`}
-                onMouseEnter={() => setIsButtonHovered(true)}
-                onMouseLeave={() => setIsButtonHovered(false)}
+                onMouseEnter={handleButtonHoverEnter}
+                onMouseLeave={handleButtonHoverLeave}
               >
                 <span className="relative z-10 flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
                   Subscribe for free
@@ -289,7 +348,12 @@ export default function Home() {
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
                 <Avatar className="w-32 h-32 sm:w-48 sm:h-48 border-4 border-white shadow-lg transition-transform duration-300 group-hover:scale-105">
-                  <AvatarImage src="https://www.bu.edu/bhr/files/2024/04/1704348040324-636x636.jpg" alt="Dylan Huey" />
+                  <AvatarImage 
+                    src="https://www.bu.edu/bhr/files/2024/04/1704348040324-636x636.jpg" 
+                    alt="Dylan Huey"
+                    loading="lazy"
+                    fetchPriority="low"
+                  />
                   <AvatarFallback>DH</AvatarFallback>
                 </Avatar>
                 <div className="absolute -top-2 -right-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs px-2 py-1 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -325,36 +389,8 @@ export default function Home() {
           <h2 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-10">Latest Insights</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            {latestInsights.map((insight) => (
-              <Card 
-                key={insight.id} 
-                className="overflow-hidden group hover:shadow-lg transition-all duration-300 border-t-2 border-transparent hover:border-t-2 hover:border-indigo-500"
-              >
-                <div className="p-4 sm:p-5">
-                  <div className="flex items-center justify-between mb-2 sm:mb-3">
-                    <Badge className="bg-indigo-100 text-indigo-800 text-xs py-0.5">
-                      {insight.category}
-                    </Badge>
-                    <div className="flex items-center text-xs sm:text-sm text-gray-500">
-                      <Clock size={12} className="mr-1" />
-                      {insight.date}
-                    </div>
-                  </div>
-
-                  <h3 className="font-bold text-base sm:text-lg mb-2 sm:mb-3 group-hover:text-indigo-700 transition-colors duration-300">
-                    {insight.title}
-                  </h3>
-
-                  <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">
-                    {insight.excerpt}
-                  </p>
-
-                  <div className="flex items-center text-indigo-600 text-xs sm:text-sm font-medium group-hover:text-indigo-800 transition-colors duration-300">
-                    Read more
-                    <ArrowRight size={12} className="ml-1 transition-transform duration-300 group-hover:translate-x-1" />
-                  </div>
-                </div>
-              </Card>
+            {LATEST_INSIGHTS.map((insight) => (
+              <InsightCard key={insight.id} insight={insight} isMobile={isMobile} />
             ))}
           </div>
 
@@ -427,7 +463,7 @@ export default function Home() {
                 type="email" 
                 placeholder="your@email.com" 
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
                 className="rounded-md pr-6 h-10 sm:h-auto"
               />
               {/* Interactive green dot - changes color based on input */}
