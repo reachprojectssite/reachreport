@@ -7,13 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Users, Sparkles, Bell, ArrowRight, Clock, ChevronRight } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Users, Sparkles, Bell, ArrowRight, Clock, ChevronRight } from "lucide-react";
 import SiteFooter from '@/components/ui/site-footer';
 
 // Pre-defined static data
 const WORDS = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
-
 const LATEST_INSIGHTS = [
   {
     id: 1,
@@ -36,7 +36,6 @@ const LATEST_INSIGHTS = [
     title: "Monetization Strategies for Micro-Influencers",
     excerpt: "Effective ways to generate revenue with audiences under 100K followers.",
     category: "Monetization",
-    date: "May 1, 2025",
     image: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&auto=format&fit=crop"
   }
 ];
