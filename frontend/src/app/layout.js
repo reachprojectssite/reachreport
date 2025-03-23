@@ -1,24 +1,23 @@
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+import './globals.css'
 
 export const metadata = {
-  title: "ReachReport",
-  description: "The REACH Report x Dylan Huey",
-};
+  title: 'The REACH Report',
+  description: 'The latest insights in marketing, social media, and the creator economy',
+}
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable}`}>
-      <body className="antialiased font-sans">
+    <html lang="en">
+      <head>
+        <script 
+          data-beehiiv-publication-id="pub_32491422-c94a-40b2-baec-c90cbb498271"
+          src="https://embed.beehiiv.com/subscribe.js"
+          async
+        />
+      </head>
+      <body>
         {children}
-        <Toaster />
       </body>
     </html>
-  );
+  )
 }
