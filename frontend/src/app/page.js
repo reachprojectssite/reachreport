@@ -5,15 +5,12 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Users, Sparkles, Bell, ArrowRight, Clock, ChevronRight } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
 import SiteFooter from '@/components/ui/site-footer';
 
 // Pre-defined static data
 const WORDS = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
-
 const LATEST_INSIGHTS = [
   {
     id: 1,
@@ -50,7 +47,7 @@ export default function Home() {
   const [isBellAnimated, setIsBellAnimated] = useState(false);
   const statsRef = useRef(null);
   const iframeRef = useRef(null);
-  const isMobile = useIsMobile();
+  const isMobile = false; // Simplified to avoid hook issues
   
   // Word rotation effect
   useEffect(() => {
@@ -166,11 +163,11 @@ export default function Home() {
       />
 
       {/* Background gradient elements */}
-      <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium" />
-      <div className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60 animate-float-fast" />
-      <div className="absolute bottom-1/4 left-0 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60 animate-float-reverse" />
-      <div className="absolute top-3/4 left-1/4 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50 animate-pulse-slow" />
+      <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70" />
+      <div className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60" />
+      <div className="absolute bottom-1/4 left-0 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60" />
+      <div className="absolute top-3/4 left-1/4 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50" />
 
       {/* Header */}
       <header className="flex justify-between items-center p-4 sm:p-5">
@@ -233,7 +230,7 @@ export default function Home() {
                 <span className="relative z-10 flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
                   Subscribe for free
                   <Sparkles 
-                    size={isMobile ? 14 : 16} 
+                    size={16} 
                     className={`transition-all duration-500 ${
                       isButtonHovered ? 'opacity-100 rotate-12 scale-110' : 'opacity-0'
                     }`}
@@ -255,12 +252,12 @@ export default function Home() {
 
         {/* About Section */}
         <div className="mt-20 sm:mt-32 mb-16 sm:mb-20 relative">
-          <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full bg-indigo-100 blur-3xl opacity-30 animate-float-slow"></div>
-          <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-purple-100 blur-3xl opacity-30 animate-float-medium"></div>
+          <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full bg-indigo-100 blur-3xl opacity-30"></div>
+          <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-purple-100 blur-3xl opacity-30"></div>
 
           <h2 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-10 relative">
             What is The REACH Report
-            <div className="absolute -top-6 -right-6 w-12 h-12 rounded-full bg-yellow-100 blur-xl opacity-70 animate-pulse-slow"></div>
+            <div className="absolute -top-6 -right-6 w-12 h-12 rounded-full bg-yellow-100 blur-xl opacity-70"></div>
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-center">
@@ -269,7 +266,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
                 <Avatar className="w-32 h-32 sm:w-48 sm:h-48 border-4 border-white shadow-lg transition-transform duration-300 group-hover:scale-105">
                   <AvatarImage 
-                    src="https://www.bu.edu/bhr/files/2024/04/1704348040324-636x636.jpg" 
+                    src="/images/dylan-huey.jpg" 
                     alt="Dylan Huey"
                     loading="lazy"
                   />
@@ -302,8 +299,8 @@ export default function Home() {
 
         {/* Latest Insights Section */}
         <div className="mt-20 sm:mt-32 mb-16 sm:mb-20 relative">
-          <div className="absolute -top-20 right-20 w-40 h-40 rounded-full bg-blue-100 blur-3xl opacity-30 animate-float-medium"></div>
-          <div className="absolute -bottom-20 left-20 w-40 h-40 rounded-full bg-pink-100 blur-3xl opacity-30 animate-float-slow"></div>
+          <div className="absolute -top-20 right-20 w-40 h-40 rounded-full bg-blue-100 blur-3xl opacity-30"></div>
+          <div className="absolute -bottom-20 left-20 w-40 h-40 rounded-full bg-pink-100 blur-3xl opacity-30"></div>
 
           <h2 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-10">Latest Insights</h2>
 
@@ -357,7 +354,7 @@ export default function Home() {
             {/* Subscriber count card */}
             <Card className="p-4 sm:p-6 border-t-4 border-indigo-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden z-20">
               <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
-                <Users className="text-indigo-500" size={isMobile ? 18 : 24} />
+                <Users className="text-indigo-500" size={24} />
                 <h3 className="font-bold text-base sm:text-lg">Growing Community</h3>
               </div>
               <div className="text-3xl sm:text-4xl font-bold text-indigo-600 mb-1 sm:mb-2">
@@ -376,9 +373,7 @@ export default function Home() {
                     key={company}
                     className="relative p-1.5 sm:p-2 text-center rounded-md border border-gray-200 hover:border-purple-300 transition-all duration-300 group/item"
                   >
-                    <span className={`text-xs sm:text-sm font-medium group-hover/item:text-${
-                      ['blue', 'pink', 'yellow', 'blue', 'green', 'red'][index % 6]
-                    }-500 transition-colors duration-300`}>
+                    <span className="text-xs sm:text-sm font-medium transition-colors duration-300">
                       {company}
                     </span>
                     <span className="absolute top-1 right-1 w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-white group-hover/item:bg-purple-500 transition-all duration-300"></span>
@@ -400,7 +395,7 @@ export default function Home() {
               <p className="text-gray-600 text-sm sm:text-base">Get the latest insights biweekly.</p>
             </div>
             <div className={`ml-auto ${isBellAnimated ? 'animate-bell' : ''}`}>
-              <Bell className="text-indigo-500" size={isMobile ? 18 : 24} />
+              <Bell className="text-indigo-500" size={24} />
             </div>
           </div>
 

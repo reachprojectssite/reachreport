@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 const SiteFooter = ({ isMobile }) => {
   const [contactForm, setContactForm] = useState({
     name: "",
-    email: "", 
+    email: "",
     message: ""
   });
 
@@ -67,21 +67,128 @@ const SiteFooter = ({ isMobile }) => {
                   <DialogTitle className="text-lg sm:text-xl font-bold">Privacy Policy</DialogTitle>
                   <DialogDescription className="text-xs sm:text-sm text-gray-500">Effective Date: January 1, 2025</DialogDescription>
                 </DialogHeader>
-                <div className="mt-4 text-xs sm:text-sm">
-                  <p className="mb-4">
-                    This privacy policy outlines how we collect, use, and protect your personal information when you subscribe to our newsletter.
+                <div className="mt-4 text-xs sm:text-sm space-y-4">
+                  <p>
+                    PRIVACY POLICY FOR THE REACH REPORT × DYLAN HUEY
+                    EFFECTIVE DATE: JANUARY 1, 2025
                   </p>
                   
-                  <h3 className="font-bold mt-4 mb-2">Information We Collect</h3>
-                  <p className="mb-2">When you subscribe, we collect your email address and any other information you voluntarily provide.</p>
-                  
-                  <h3 className="font-bold mt-4 mb-2">How We Use Your Information</h3>
-                  <p className="mb-2">We use your information to send you the newsletter and related content, and to improve our services.</p>
-                  
-                  <h3 className="font-bold mt-4 mb-2">Contact Us</h3>
-                  <p className="mb-2">
-                    If you have questions, please contact: postmaster@reachprojects.co
+                  <p>
+                    THIS PRIVACY POLICY OUTLINES HOW REACH PROJECTS, INC. ("WE," "US," OR "OUR") COLLECTS, USES, AND PROTECTS YOUR PERSONAL INFORMATION WHEN YOU SUBSCRIBE TO THE REACH REPORT × DYLAN HUEY NEWSLETTER ("NEWSLETTER"). BY SUBSCRIBING, YOU AGREE TO THE TERMS OF THIS PRIVACY POLICY.
                   </p>
+                  
+                  <div>
+                    <h3 className="font-bold mt-4 mb-2">INFORMATION WE COLLECT</h3>
+                    <p>WHEN YOU SUBSCRIBE TO THE NEWSLETTER, WE MAY COLLECT:</p>
+                    <ul className="list-disc pl-5 mt-2">
+                      <li>YOUR NAME</li>
+                      <li>YOUR EMAIL ADDRESS</li>
+                      <li>ANY OTHER INFORMATION VOLUNTARILY PROVIDED BY YOU</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-bold mt-4 mb-2">HOW WE USE YOUR INFORMATION</h3>
+                    <p>WE USE YOUR INFORMATION TO:</p>
+                    <ul className="list-disc pl-5 mt-2">
+                      <li>SEND YOU THE NEWSLETTER, UPDATES, AND RELATED CONTENT</li>
+                      <li>COMMUNICATE WITH YOU ABOUT NEWSLETTER FEATURES, UPDATES, AND CHANGES</li>
+                      <li>MONITOR, ANALYZE, AND IMPROVE THE PERFORMANCE AND EFFECTIVENESS OF THE NEWSLETTER</li>
+                      <li>COMPLY WITH LEGAL AND REGULATORY REQUIREMENTS</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-bold mt-4 mb-2">DATA USAGE, ANALYTICS, AND TRACKING</h3>
+                    <p>
+                      WE MAY USE EMAIL ANALYTICS TO TRACK EMAIL OPEN RATES, CLICK-THROUGH RATES, AND OTHER ENGAGEMENT METRICS. WE USE THIS DATA TO UNDERSTAND HOW OUR NEWSLETTER IS PERFORMING AND TO IMPROVE CONTENT DELIVERY. THIS MAY INCLUDE THE USE OF TRACKING PIXELS, COOKIES, AND THIRD-PARTY ANALYTICS SERVICES.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-bold mt-4 mb-2">DISCLOSURE OF INFORMATION</h3>
+                    <p>WE DO NOT SELL OR RENT YOUR PERSONAL INFORMATION. WE MAY SHARE YOUR INFORMATION IN THE FOLLOWING INSTANCES:</p>
+                    <ul className="list-disc pl-5 mt-2">
+                      <li>WITH TRUSTED THIRD-PARTY SERVICE PROVIDERS WHO ASSIST IN OPERATING THE NEWSLETTER UNDER STRICT CONFIDENTIALITY AGREEMENTS</li>
+                      <li>TO COMPLY WITH LEGAL REQUIREMENTS, LAW ENFORCEMENT REQUESTS, OR COURT ORDERS</li>
+                      <li>TO PROTECT OUR RIGHTS, PROPERTY, OR SAFETY, OR THAT OF OTHERS</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-bold mt-4 mb-2">INTERNATIONAL DATA TRANSFERS AND COMPLIANCE</h3>
+                    <p>
+                      IF YOU ARE LOCATED OUTSIDE THE UNITED STATES, YOUR INFORMATION MAY BE TRANSFERRED TO AND PROCESSED IN THE UNITED STATES. BY SUBMITTING YOUR INFORMATION, YOU CONSENT TO THIS TRANSFER, PROCESSING, AND STORAGE. WE COMPLY WITH INTERNATIONAL DATA PROTECTION LAWS INCLUDING:
+                    </p>
+                    <ul className="list-disc pl-5 mt-2">
+                      <li>GENERAL DATA PROTECTION REGULATION (GDPR) FOR INDIVIDUALS IN THE EUROPEAN ECONOMIC AREA (EEA)</li>
+                      <li>PERSONAL INFORMATION PROTECTION AND ELECTRONIC DOCUMENTS ACT (PIPEDA) FOR CANADIAN RESIDENTS</li>
+                    </ul>
+                    <p className="mt-2">
+                      IF YOU ARE COVERED UNDER THESE REGULATIONS, YOU HAVE THE FOLLOWING RIGHTS:
+                    </p>
+                    <ul className="list-disc pl-5 mt-2">
+                      <li>THE RIGHT TO ACCESS, CORRECT, OR DELETE YOUR PERSONAL DATA</li>
+                      <li>THE RIGHT TO OBJECT TO PROCESSING OR REQUEST RESTRICTIONS</li>
+                      <li>THE RIGHT TO DATA PORTABILITY</li>
+                    </ul>
+                    <p className="mt-2">
+                      TO EXERCISE ANY OF THESE RIGHTS, PLEASE CONTACT US AT POSTMASTER@REACHPROJECTS.CO.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-bold mt-4 mb-2">DATA RETENTION</h3>
+                    <p>
+                      WE RETAIN YOUR PERSONAL INFORMATION ONLY AS LONG AS NECESSARY TO PROVIDE YOU WITH THE NEWSLETTER AND FOR LEGITIMATE BUSINESS PURPOSES, UNLESS A LONGER RETENTION PERIOD IS REQUIRED BY LAW.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-bold mt-4 mb-2">YOUR CHOICES AND UNSUBSCRIBE</h3>
+                    <p>
+                      YOU MAY ONLY UNSUBSCRIBE FROM THE NEWSLETTER BY CLICKING THE "UNSUBSCRIBE" LINK INCLUDED AT THE BOTTOM OF EACH EMAIL. WE DO NOT ACCEPT UNSUBSCRIBE REQUESTS VIA EMAIL, PHONE, OR ANY OTHER METHOD. ONCE UNSUBSCRIBED, YOU WILL NO LONGER RECEIVE THE NEWSLETTER, BUT WE MAY RETAIN YOUR INFORMATION FOR RECORD-KEEPING AND LEGAL PURPOSES.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-bold mt-4 mb-2">THIRD-PARTY LINKS</h3>
+                    <p>
+                      THE NEWSLETTER MAY CONTAIN LINKS TO THIRD-PARTY WEBSITES. WE ARE NOT RESPONSIBLE FOR THE PRIVACY PRACTICES, CONTENT, OR SECURITY OF THESE SITES. WE ENCOURAGE YOU TO REVIEW THEIR PRIVACY POLICIES.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-bold mt-4 mb-2">SECURITY MEASURES</h3>
+                    <p>
+                      WE TAKE REASONABLE STEPS TO PROTECT YOUR PERSONAL INFORMATION. HOWEVER, NO INTERNET OR EMAIL TRANSMISSION IS EVER FULLY SECURE OR ERROR-FREE. YOU PROVIDE INFORMATION AT YOUR OWN RISK.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-bold mt-4 mb-2">CHILDREN'S PRIVACY</h3>
+                    <p>
+                      THE NEWSLETTER IS INTENDED FOR USERS 18 YEARS OF AGE OR OLDER. WE DO NOT KNOWINGLY COLLECT PERSONAL INFORMATION FROM CHILDREN UNDER 13 YEARS OLD. IF YOU BELIEVE WE HAVE COLLECTED SUCH INFORMATION, CONTACT US IMMEDIATELY.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-bold mt-4 mb-2">CHANGES TO THIS PRIVACY POLICY</h3>
+                    <p>
+                      WE MAY UPDATE THIS PRIVACY POLICY FROM TIME TO TIME. ANY CHANGES WILL BE POSTED IN THE NEWSLETTER OR SENT VIA EMAIL. YOUR CONTINUED USE OF THE NEWSLETTER AFTER CHANGES ARE MADE INDICATES ACCEPTANCE OF THE UPDATED POLICY.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-bold mt-4 mb-2">CONTACT US</h3>
+                    <p>
+                      IF YOU HAVE QUESTIONS OR WISH TO EXERCISE YOUR RIGHTS UNDER THIS POLICY, PLEASE CONTACT:
+                    </p>
+                    <p className="mt-2">
+                      REACH PROJECTS, INC.<br />
+                      EMAIL: POSTMASTER@REACHPROJECTS.CO
+                    </p>
+                  </div>
                 </div>
               </DialogContent>
             </Dialog>
