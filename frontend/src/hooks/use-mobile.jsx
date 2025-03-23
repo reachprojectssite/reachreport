@@ -1,19 +1,28 @@
-import * as React from "react"
+"use client";
 
-const MOBILE_BREAKPOINT = 768
+import { useState, useEffect, useCallback } from "react";
 
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState(undefined)
+  // Start with a reasonable default based on common mobile breakpoint
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Memoize the resize handler
+  const handleResize = useCallback(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
-  React.useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
-    const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    }
-    mql.addEventListener("change", onChange)
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    return () => mql.removeEventListener("change", onChange);
-  }, [])
+  useEffect(() => {
+    // Set initial value
+    handleResize();
+    
+    // Add event listener with passive option for better performance
+    window.addEventListener("resize", handleResize, { passive: true });
+    
+    // Clean up
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [handleResize]);
 
-  return !!isMobile
+  return isMobile;
 }
