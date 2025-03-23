@@ -11,8 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 const SiteFooter = ({ isMobile }) => {
   const [contactForm, setContactForm] = useState({
     name: "",
-    email: "", 
-    phone: "",
+    email: "",
     message: ""
   });
 
@@ -32,7 +31,6 @@ const SiteFooter = ({ isMobile }) => {
     setContactForm({
       name: "",
       email: "",
-      phone: "",
       message: ""
     });
   };
