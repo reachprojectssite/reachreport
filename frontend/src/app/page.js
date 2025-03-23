@@ -102,14 +102,22 @@ export default function Home() {
   const handleSubscribe = async (e) => {
     e.preventDefault();
     
-    // Trigger beehiiv subscription
-    if (window.beehiiv) {
-      window.beehiiv.openSubscribeModal();
-    } else {
-      console.error('Beehiiv script not loaded');
+    // Trigger beehiiv subscription with the email
+    if (window.beehiiv && email) {
+      window.beehiiv('subscribe', {
+        email: email,
+        publicationId: '32491422-c94a-40b2-baec-c90cbb498271',
+        onSuccess: () => {
+          console.log('Subscription successful');
+          setEmail('');
+        },
+        onError: (err) => {
+          console.error('Subscription error:', err);
+        }
+      });
     }
     
-    // Keep your existing animation
+    // Keep your existing animation logic
     setIsBellAnimated(true);
     setTimeout(() => setIsBellAnimated(false), 1000);
   };
