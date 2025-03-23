@@ -21,7 +21,7 @@ const LATEST_INSIGHTS = [
     excerpt: "How artificial intelligence is transforming content creation and audience targeting.",
     category: "Tech Trends", 
     date: "May 15, 2025",
-    image: "/images/ai-marketing.jpg"
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop"
   },
   {
     id: 2,
@@ -29,15 +29,14 @@ const LATEST_INSIGHTS = [
     excerpt: "Breaking down the latest changes and how to optimize your content strategy.",
     category: "Platform Updates",
     date: "May 8, 2025",
-    image: "/images/tiktok-update.jpg"
+    image: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&auto=format&fit=crop"
   },
   {
     id: 3,
     title: "Monetization Strategies for Micro-Influencers",
     excerpt: "Effective ways to generate revenue with audiences under 100K followers.",
     category: "Monetization",
-    date: "May 1, 2025",
-    image: "/images/monetization.jpg"
+    image: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&auto=format&fit=crop"
   }
 ];
 
