@@ -3,17 +3,28 @@ import * as React from "react"
 const MOBILE_BREAKPOINT = 768
 
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState(undefined)
+  // Start with false to avoid hydration mismatch
+  const [isMobile, setIsMobile] = React.useState(false)
+  const [isClient, setIsClient] = React.useState(false)
 
   React.useEffect(() => {
+    setIsClient(true)
+    
+    // Use more efficient matchMedia API with passive listener
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
     const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+      setIsMobile(mql.matches)
     }
-    mql.addEventListener("change", onChange)
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+    
+    // Set initial value
+    setIsMobile(mql.matches)
+    
+    // Use modern event listener with passive option for better performance
+    mql.addEventListener("change", onChange, { passive: true })
+    
     return () => mql.removeEventListener("change", onChange);
   }, [])
 
-  return !!isMobile
+  // Return false during SSR, then the actual value after hydration
+  return isClient ? isMobile : false
 }
