@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -55,36 +56,10 @@ const SiteFooter = ({ isMobile }) => {
               <ExternalLink size={isMobile ? 14 : 16} />
             </a>
             
-            {/* Privacy Policy Dialog */}
-            <Dialog>
-              <DialogTrigger asChild>
-                <button className="text-gray-600 hover:text-indigo-600 transition-colors text-sm sm:text-base">
-                  Privacy Policy
-                </button>
-              </DialogTrigger>
-              <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto mx-4 sm:mx-auto">
-                <DialogHeader>
-                  <DialogTitle className="text-lg sm:text-xl font-bold">Privacy Policy</DialogTitle>
-                  <DialogDescription className="text-xs sm:text-sm text-gray-500">Effective Date: January 1, 2025</DialogDescription>
-                </DialogHeader>
-                <div className="mt-4 text-xs sm:text-sm">
-                  <p className="mb-4">
-                    This privacy policy outlines how we collect, use, and protect your personal information when you subscribe to our newsletter.
-                  </p>
-                  
-                  <h3 className="font-bold mt-4 mb-2">Information We Collect</h3>
-                  <p className="mb-2">When you subscribe, we collect your email address and any other information you voluntarily provide.</p>
-                  
-                  <h3 className="font-bold mt-4 mb-2">How We Use Your Information</h3>
-                  <p className="mb-2">We use your information to send you the newsletter and related content, and to improve our services.</p>
-                  
-                  <h3 className="font-bold mt-4 mb-2">Contact Us</h3>
-                  <p className="mb-2">
-                    If you have questions, please contact: postmaster@reachprojects.co
-                  </p>
-                </div>
-              </DialogContent>
-            </Dialog>
+            {/* Privacy Policy Link */}
+            <Link href="/privacy" className="text-gray-600 hover:text-indigo-600 transition-colors text-sm sm:text-base">
+              Privacy Policy
+            </Link>
 
             {/* Terms of Service Dialog */}
             <Dialog>
