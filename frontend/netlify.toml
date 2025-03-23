@@ -1,2 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+  base = "frontend"
+
 [[plugins]]
-package = "@netlify/plugin-nextjs"
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NEXT_PUBLIC_SITE_URL = "https://thereachreport.com"
+  NEXT_USE_NETLIFY_EDGE = "true"
