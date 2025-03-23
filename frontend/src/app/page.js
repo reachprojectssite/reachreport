@@ -5,42 +5,30 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { 
+  Users, 
+  Sparkles, 
+  Bell, 
+  ArrowRight, 
+  Clock, 
+  ChevronRight,
+  Linkedin,
+  Heart,
+  ArrowLeft
+} from "lucide-react";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Users, Sparkles, Bell, ArrowRight, Clock, ChevronRight } from "lucide-react";
-import SiteFooter from '@/components/ui/site-footer';
-
-// Pre-defined static data
-const WORDS = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
-const LATEST_INSIGHTS = [
-  {
-    id: 1,
-    title: "The Rise of AI in Creator Marketing",
-    excerpt: "How artificial intelligence is transforming content creation and audience targeting.",
-    category: "Tech Trends", 
-    date: "May 15, 2025",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop"
-  },
-  {
-    id: 2,
-    title: "TikTok's Algorithm Update: What Creators Need to Know",
-    excerpt: "Breaking down the latest changes and how to optimize your content strategy.",
-    category: "Platform Updates",
-    date: "May 8, 2025",
-    image: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=800&auto=format&fit=crop"
-  },
-  {
-    id: 3,
-    title: "Monetization Strategies for Micro-Influencers",
-    excerpt: "Effective ways to generate revenue with audiences under 100K followers.",
-    category: "Monetization",
-    image: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&auto=format&fit=crop"
-  }
-];
+import SiteFooter from "@/components/ui/site-footer";
+import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
+import { ArchivesModal } from "@/components/ui/archives-modal";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const [email, setEmail] = useState("");
   const [currentWord, setCurrentWord] = useState(0);
   const [subscriberCount, setSubscriberCount] = useState(0);
@@ -48,20 +36,32 @@ export default function Home() {
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [isBellAnimated, setIsBellAnimated] = useState(false);
   const statsRef = useRef(null);
-  const iframeRef = useRef(null);
   const isMobile = useIsMobile();
+  const [latestPosts, setLatestPosts] = useState([]);
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [isPostModalOpen, setIsPostModalOpen] = useState(false);
   
+  const words = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
+  
+  // Handle client-side mounting
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
   // Word rotation effect
   useEffect(() => {
+    if (!mounted) return;
+    
     const interval = setInterval(() => {
-      setCurrentWord((prev) => (prev + 1) % WORDS.length);
+      setCurrentWord((prev) => (prev + 1) % words.length);
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [mounted]);
 
   // Subscriber counter animation
   useEffect(() => {
-    if (!statsRef.current) return;
+    if (!mounted) return;
     
     const observer = new IntersectionObserver(
       (entries) => {
@@ -69,112 +69,187 @@ export default function Home() {
           setIsStatsVisible(true);
         }
       },
-      { threshold: 0.1, rootMargin: '100px' }
+      { threshold: 0.1 }
     );
     
-    observer.observe(statsRef.current);
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
     
     return () => {
       if (statsRef.current) {
         observer.unobserve(statsRef.current);
       }
     };
-  }, []);
+  }, [mounted]);
 
   // Animate subscriber count
   useEffect(() => {
-    if (!isStatsVisible) return;
+    if (!mounted || !isStatsVisible) return;
     
-    let start = 0;
-    const end = 10000;
-    const duration = 2000;
-    let startTime = null;
+    const interval = setInterval(() => {
+      setSubscriberCount((prev) => {
+        const next = prev + 100;
+        if (next >= 10000) {
+          clearInterval(interval);
+          return 10000;
+        }
+        return next;
+      });
+    }, 20);
     
-    const animate = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const value = Math.floor(progress * (end - start) + start);
-      
-      setSubscriberCount(value);
-      
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-    
-    requestAnimationFrame(animate);
-  }, [isStatsVisible]);
+    return () => clearInterval(interval);
+  }, [mounted, isStatsVisible]);
 
   // Bell animation
   useEffect(() => {
+    if (!mounted) return;
+    
     const interval = setInterval(() => {
       setIsBellAnimated(true);
       setTimeout(() => setIsBellAnimated(false), 1000);
     }, 5000);
     
     return () => clearInterval(interval);
+  }, [mounted]);
+
+  // Fetch latest posts on mount
+  useEffect(() => {
+    const fetchLatestPosts = async () => {
+      try {
+        const response = await fetch("/api/rss-feed");
+        if (!response.ok) throw new Error("Failed to fetch RSS feed");
+        const data = await response.json();
+        setLatestPosts(data.slice(0, 3)); // Get latest 3 posts
+      } catch (err) {
+        console.error("Error fetching RSS feed:", err);
+      }
+    };
+
+    fetchLatestPosts();
   }, []);
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
     
-    // Find the iframe's email input and submit button
-    if (iframeRef.current) {
-      try {
-        // Store the email for retry mechanism
-        const emailToSubmit = email;
-        
-        // Reset form immediately for better UX
+    if (!mounted) return;
+    
+    if (!email) {
+      toast.error('Please enter your email address');
+      return;
+    }
+
+    try {
+      // Check if already subscribed
+      const { data: existingSubscriber } = await supabase
+        .from('subscribers')
+        .select('id')
+        .eq('email', email)
+        .single();
+
+      if (existingSubscriber) {
+        toast.info('You are already subscribed!', {
+          description: 'Thank you for your continued support.'
+        });
         setEmail('');
-        
-        // Trigger bell animation
-        setIsBellAnimated(true);
-        setTimeout(() => setIsBellAnimated(false), 1000);
-        
-        // Create a new tab with the subscription URL and email param
-        const subscribeUrl = `https://embeds.beehiiv.com/32491422-c94a-40b2-baec-c90cbb498271?email=${encodeURIComponent(emailToSubmit)}`;
-        window.open(subscribeUrl, '_blank');
-      } catch (error) {
-        console.error('Subscription error:', error);
+        return;
       }
+
+      // Add new subscriber
+      const { error } = await supabase
+        .from('subscribers')
+        .insert([{ email }]);
+
+      if (error) throw error;
+
+      // Show success message
+      toast.success('Successfully subscribed!', {
+        description: 'Welcome to the REACH Report community.'
+      });
+      
+      // Reset form
+      setEmail('');
+      
+      // Trigger bell animation
+      setIsBellAnimated(true);
+      setTimeout(() => setIsBellAnimated(false), 1000);
+    } catch (error) {
+      console.error('Subscription error:', error);
+      toast.error('Failed to subscribe', {
+        description: 'Please try again later.'
+      });
     }
   };
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  // Interactive card effect
+  const handleMouseMove = (e) => {
+    if (!mounted) return;
+    
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / 20;
+    const rotateY = (centerX - x) / 20;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   };
 
-  const handleButtonHoverEnter = () => {
-    setIsButtonHovered(true);
+  const handleMouseLeave = (e) => {
+    if (!mounted) return;
+    e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
   };
 
-  const handleButtonHoverLeave = () => {
-    setIsButtonHovered(false);
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   };
+
+  const handlePostClick = (post) => {
+    setSelectedPost(post);
+    setIsPostModalOpen(true);
+  };
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-white">
-      {/* Hidden beehiiv iframe - loaded with low priority */}
-      <iframe 
-        ref={iframeRef}
-        src="https://embeds.beehiiv.com/32491422-c94a-40b2-baec-c90cbb498271"
-        className="absolute -left-[9999px] -top-[9999px] w-0 h-0 opacity-0 pointer-events-none"
-        tabIndex="-1"
-        aria-hidden="true"
-        loading="lazy"
-      />
-
-      {/* Background gradient elements */}
+      {/* Repositioned background gradient elements to avoid covering key content */}
       <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow" />
       <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium" />
       <div className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60 animate-float-fast" />
       <div className="absolute bottom-1/4 left-0 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60 animate-float-reverse" />
       <div className="absolute top-3/4 left-1/4 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50 animate-pulse-slow" />
 
-      {/* Header */}
+      {/* Header with ring around REACH X Dylan Huey */}
       <header className="flex justify-between items-center p-4 sm:p-5">
         <div className="font-bold text-base sm:text-lg border rounded-full px-3 py-1 sm:px-4 sm:py-1">REACH X Dylan Huey</div>
-        <Button variant="outline" className="rounded-full text-sm sm:text-base">Archive</Button>
+        <div className="flex items-center gap-4">
+          <ArchivesModal />
+          <a 
+            href="https://www.linkedin.com/in/dylanhuey40/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-blue-600 transition-colors duration-200"
+          >
+            <Linkedin size={20} />
+          </a>
+          <a 
+            href="https://www.paypal.com/donate/?hosted_button_id=MJ59GEHNXCQML" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-red-600 transition-colors duration-200"
+          >
+            <Heart size={20} />
+          </a>
+        </div>
       </header>
 
       {/* Main content */}
@@ -183,15 +258,22 @@ export default function Home() {
         <div className="text-center mb-12 sm:mb-16">
           <p className="text-gray-500 uppercase tracking-wider text-xs sm:text-sm mb-2">FOR THE NEXT GENERATION OF</p>
           <h1 className="text-4xl sm:text-6xl font-bold mb-4 relative h-16 sm:h-24 flex items-center justify-center">
-            {WORDS.map((word, index) => (
-              <span 
-                key={word}
-                className="absolute inset-0 flex justify-center items-center opacity-0 transition-opacity duration-500" 
-                style={{ opacity: currentWord === index ? 1 : 0 }}
-              >
-                {word}
-              </span>
-            ))}
+            <span className="absolute inset-0 flex justify-center items-center opacity-0 transition-opacity duration-500" 
+                  style={{ opacity: currentWord === 0 ? 1 : 0 }}>
+              {words[0]}
+            </span>
+            <span className="absolute inset-0 flex justify-center items-center opacity-0 transition-opacity duration-500" 
+                  style={{ opacity: currentWord === 1 ? 1 : 0 }}>
+              {words[1]}
+            </span>
+            <span className="absolute inset-0 flex justify-center items-center opacity-0 transition-opacity duration-500" 
+                  style={{ opacity: currentWord === 2 ? 1 : 0 }}>
+              {words[2]}
+            </span>
+            <span className="absolute inset-0 flex justify-center items-center opacity-0 transition-opacity duration-500" 
+                  style={{ opacity: currentWord === 3 ? 1 : 0 }}>
+              {words[3]}
+            </span>
           </h1>
           <h2 className="text-xl sm:text-3xl font-medium flex items-center justify-center gap-1 sm:gap-2">
             The REACH Report <span className="text-gray-400">×</span> Dylan Huey
@@ -199,8 +281,12 @@ export default function Home() {
           </h2>
         </div>
 
-        {/* Subscription card */}
-        <Card className="w-full max-w-md mx-auto p-5 sm:p-6 shadow-lg transition-all duration-300 bg-white relative overflow-hidden">
+        {/* Subscription card with 3D effect */}
+        <Card 
+          className="w-full max-w-md mx-auto p-5 sm:p-6 shadow-lg transition-all duration-300 bg-white relative overflow-hidden"
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+        >
           <div className="mb-5 sm:mb-6">
             <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Join the community</h3>
             <p className="text-gray-600 text-sm sm:text-base">Get the latest insights biweekly.</p>
@@ -212,10 +298,10 @@ export default function Home() {
                 type="email" 
                 placeholder="your@email.com" 
                 value={email}
-                onChange={handleEmailChange}
+                onChange={(e) => setEmail(e.target.value)}
                 className="rounded-md pr-6 h-10 sm:h-auto"
               />
-              {/* Interactive green dot */}
+              {/* Interactive green dot - changes color based on input */}
               <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full transition-colors duration-300 ${
                 email.length > 0 ? 'bg-green-500' : 'bg-gray-300'
               }`}></div>
@@ -226,8 +312,8 @@ export default function Home() {
                 className={`w-full bg-black text-white transition-all duration-500 overflow-hidden group h-10 sm:h-auto ${
                   isButtonHovered ? 'shadow-[0_0_15px_rgba(0,0,0,0.3)]' : ''
                 }`}
-                onMouseEnter={handleButtonHoverEnter}
-                onMouseLeave={handleButtonHoverLeave}
+                onMouseEnter={() => setIsButtonHovered(true)}
+                onMouseLeave={() => setIsButtonHovered(false)}
               >
                 <span className="relative z-10 flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
                   Subscribe for free
@@ -241,14 +327,14 @@ export default function Home() {
                 <span className={`absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></span>
               </Button>
 
-              {/* Button glow effect */}
+              {/* Interactive button glow effect */}
               <div className={`absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 blur-xl opacity-0 transition-opacity duration-500 ${
                 isButtonHovered ? 'opacity-30' : ''
               }`}></div>
             </div>
           </form>
 
-          {/* Card background glow */}
+          {/* Card background glow effect */}
           <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 blur-2xl opacity-30"></div>
         </Card>
 
@@ -267,11 +353,7 @@ export default function Home() {
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
                 <Avatar className="w-32 h-32 sm:w-48 sm:h-48 border-4 border-white shadow-lg transition-transform duration-300 group-hover:scale-105">
-                  <AvatarImage 
-                    src="https://www.bu.edu/bhr/files/2024/04/1704348040324-636x636.jpg" 
-                    alt="Dylan Huey"
-                    loading="lazy"
-                  />
+                  <AvatarImage src="https://www.bu.edu/bhr/files/2024/04/1704348040324-636x636.jpg" alt="Dylan Huey" />
                   <AvatarFallback>DH</AvatarFallback>
                 </Avatar>
                 <div className="absolute -top-2 -right-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs px-2 py-1 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -282,10 +364,10 @@ export default function Home() {
 
             <div className="md:col-span-2 space-y-3 sm:space-y-4">
               <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
-                <Badge className="bg-indigo-100 text-indigo-800 hover:bg-indigo-200 transition-all duration-300 text-xs sm:text-sm py-0.5">Creator Economy</Badge>
-                <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200 transition-all duration-300 text-xs sm:text-sm py-0.5">Marketing</Badge>
-                <Badge className="bg-pink-100 text-pink-800 hover:bg-pink-200 transition-all duration-300 text-xs sm:text-sm py-0.5">Social Media</Badge>
-                <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200 transition-all duration-300 text-xs sm:text-sm py-0.5">Gen Z</Badge>
+                <Badge className="bg-indigo-100 text-indigo-800 hover:bg-indigo-200 transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm py-0.5">Creator Economy</Badge>
+                <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200 transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm py-0.5">Marketing</Badge>
+                <Badge className="bg-pink-100 text-pink-800 hover:bg-pink-200 transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm py-0.5">Social Media</Badge>
+                <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200 transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm py-0.5">Gen Z</Badge>
               </div>
 
               <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
@@ -299,56 +381,38 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Latest Insights Section */}
-        <div className="mt-20 sm:mt-32 mb-16 sm:mb-20 relative">
-          <div className="absolute -top-20 right-20 w-40 h-40 rounded-full bg-blue-100 blur-3xl opacity-30 animate-float-medium"></div>
-          <div className="absolute -bottom-20 left-20 w-40 h-40 rounded-full bg-pink-100 blur-3xl opacity-30 animate-float-slow"></div>
-
-          <h2 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-10">Latest Insights</h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            {LATEST_INSIGHTS.map((insight) => (
-              <Card 
-                key={insight.id} 
-                className="overflow-hidden group hover:shadow-lg transition-all duration-300 border-t-2 border-transparent hover:border-t-2 hover:border-indigo-500"
+        {/* Latest Posts section */}
+        <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-12 sm:mt-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-10">Latest Posts</h2>
+          <div className={`grid gap-6 md:gap-8 ${
+            latestPosts.length === 1 ? 'grid-cols-1 max-w-xl mx-auto' : 
+            latestPosts.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto' :
+            'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+          }`}>
+            {latestPosts.slice(0, 3).map((post, index) => (
+              <div
+                key={index}
+                className="bg-white/60 backdrop-blur-sm rounded-xl border border-gray-200 p-6 hover:border-indigo-200 transition-colors duration-200 cursor-pointer"
+                onClick={() => handlePostClick(post)}
               >
-                <div className="p-4 sm:p-5">
-                  <div className="flex items-center justify-between mb-2 sm:mb-3">
-                    <Badge className="bg-indigo-100 text-indigo-800 text-xs py-0.5">
-                      {insight.category}
-                    </Badge>
-                    <div className="flex items-center text-xs sm:text-sm text-gray-500">
-                      <Clock size={12} className="mr-1" />
-                      {insight.date}
-                    </div>
-                  </div>
-
-                  <h3 className="font-bold text-base sm:text-lg mb-2 sm:mb-3 group-hover:text-indigo-700 transition-colors duration-300">
-                    {insight.title}
-                  </h3>
-
-                  <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">
-                    {insight.excerpt}
-                  </p>
-
-                  <div className="flex items-center text-indigo-600 text-xs sm:text-sm font-medium group-hover:text-indigo-800 transition-colors duration-300">
-                    Read more
-                    <ArrowRight size={12} className="ml-1 transition-transform duration-300 group-hover:translate-x-1" />
-                  </div>
+                <div className="flex items-center gap-2 mb-4">
+                  <Badge variant="secondary" className="bg-indigo-50 text-indigo-700 hover:bg-indigo-100">
+                    Dylan Huey
+                  </Badge>
+                  <span className="text-sm text-gray-500">{formatDate(post.publishedAt)}</span>
                 </div>
-              </Card>
+                <h3 className="text-xl font-semibold mb-3 line-clamp-2">{post.title}</h3>
+                <p className="text-gray-600 mb-4 line-clamp-2">{post.subtitle}</p>
+                <div className="flex items-center text-indigo-600 hover:text-indigo-700 transition-colors duration-200 group">
+                  <span className="text-sm font-medium">Read more</span>
+                  <ChevronRight className="h-4 w-4 ml-1 transition-transform duration-200 group-hover:translate-x-0.5" />
+                </div>
+              </div>
             ))}
-          </div>
-
-          <div className="mt-6 sm:mt-8 text-center">
-            <Button variant="outline" className="group text-sm sm:text-base">
-              View all insights
-              <ChevronRight size={14} className="ml-1 transition-transform duration-300 group-hover:translate-x-1" />
-            </Button>
           </div>
         </div>
 
-        {/* Why Join Our Community Section */}
+        {/* Why Join Our Community Section - No background gradients to ensure content visibility */}
         <div ref={statsRef} className="mt-20 sm:mt-32 mb-16 sm:mb-20 relative z-20">
           <h2 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-10">Why Join Our Community?</h2>
 
@@ -409,9 +473,10 @@ export default function Home() {
                 type="email" 
                 placeholder="your@email.com" 
                 value={email}
-                onChange={handleEmailChange}
+                onChange={(e) => setEmail(e.target.value)}
                 className="rounded-md pr-6 h-10 sm:h-auto"
               />
+              {/* Interactive green dot - changes color based on input */}
               <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full transition-colors duration-300 ${
                 email.length > 0 ? 'bg-green-500' : 'bg-gray-300'
               }`}></div>
@@ -428,6 +493,62 @@ export default function Home() {
           <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
         </Card>
       </main>
+
+      {/* Individual Post Modal */}
+      <Dialog open={isPostModalOpen} onOpenChange={setIsPostModalOpen}>
+        <DialogContent 
+          className="w-[min(calc(100%-2rem),1200px)] sm:w-[min(95vw,1200px)] md:w-[min(90vw,1200px)] lg:w-[min(85vw,1200px)] h-[min(calc(100vh-2rem),900px)] sm:h-[min(90vh,900px)] p-0 border-0 shadow-xl overflow-hidden rounded-lg bg-white/80 backdrop-blur-sm flex flex-col data-[state=open]:duration-300"
+        >
+          {/* Gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 via-white to-blue-50/50 opacity-70" />
+          
+          {/* Header */}
+          <div className="relative flex-none p-2 sm:p-3 md:p-4 border-b border-gray-100 bg-white/50 backdrop-blur-sm">
+            <DialogHeader>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsPostModalOpen(false)}
+                  className="hover:bg-white/80 h-8 w-8 sm:h-9 sm:w-9"
+                >
+                  <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+                </Button>
+                <div className="flex-1 min-w-0">
+                  <DialogTitle className="text-base sm:text-lg md:text-xl font-bold text-gray-900 truncate">
+                    {selectedPost?.title}
+                  </DialogTitle>
+                  <p className="text-xs sm:text-sm text-gray-500">
+                    {selectedPost && formatDate(selectedPost.publishedAt)}
+                  </p>
+                </div>
+              </div>
+            </DialogHeader>
+          </div>
+
+          {/* Content */}
+          <ScrollArea className="flex-1">
+            <div className="p-4 sm:p-6 md:p-8 max-w-[min(900px,100%-32px)] mx-auto">
+              {selectedPost?.image && (
+                <div className="mb-6">
+                  <div className="relative rounded-lg overflow-hidden">
+                    <img
+                      src={selectedPost.image}
+                      alt={selectedPost.title}
+                      className="w-full h-auto"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              )}
+              <div 
+                className="newsletter-content text-[15px] sm:text-base md:text-lg"
+                dangerouslySetInnerHTML={{ __html: selectedPost?.content }}
+              />
+            </div>
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
 
       <SiteFooter isMobile={isMobile} />
     </div>

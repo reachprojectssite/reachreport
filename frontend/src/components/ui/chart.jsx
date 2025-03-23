@@ -6,8 +6,7 @@ import { cn } from "@/lib/utils"
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = {
-  light: "",
-  dark: ".dark"
+  light: ""
 }
 
 const ChartContext = React.createContext(null)
@@ -299,6 +298,15 @@ function getPayloadConfigFromPayload(
     : config[key];
 }
 
+const Chart = React.forwardRef(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("", className)}
+    {...props}
+  />
+))
+Chart.displayName = "Chart"
+
 export {
   ChartContainer,
   ChartTooltip,
@@ -306,4 +314,5 @@ export {
   ChartLegend,
   ChartLegendContent,
   ChartStyle,
+  Chart,
 }
