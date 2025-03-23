@@ -181,86 +181,83 @@ const SiteFooter = ({ isMobile }) => {
               </DialogTrigger>
               <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto mx-4 sm:mx-auto">
                 <DialogHeader>
-                  <DialogTitle className="text-xl sm:text-2xl font-bold">Terms of Service</DialogTitle>
-                  <DialogDescription className="text-xs sm:text-sm text-gray-500">
-                    For The Reach Report × Dylan Huey<br />
-                    Effective Date: January 1, 2025
-                  </DialogDescription>
+                  <DialogTitle className="text-lg sm:text-xl font-bold">Terms of Service</DialogTitle>
+                  <DialogDescription className="text-xs sm:text-sm text-gray-500">Effective Date: January 1, 2025</DialogDescription>
                 </DialogHeader>
-                <div className="mt-4 text-xs sm:text-sm space-y-6">
-                  <p className="uppercase">
+                <div className="mt-4 text-xs sm:text-sm space-y-4">
+                  <p>
                     Please read these Terms of Service ("Terms") carefully before subscribing to or using The Reach Report × Dylan Huey newsletter ("Newsletter") provided by Reach Projects, Inc. ("we," "us," "our"). By subscribing or accessing the Newsletter, you agree to be bound by these Terms. If you do not agree to these Terms, do not subscribe or use the Newsletter.
                   </p>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-bold uppercase">1. Use of the Newsletter</h3>
-                    <p className="uppercase">
+                  <div>
+                    <h3 className="font-bold mb-2">1. Use of the Newsletter</h3>
+                    <p>
                       The Newsletter is provided for informational purposes only. You may not use the Newsletter for any unlawful purpose or in any way that could damage, disable, or interfere with our servers or networks.
                     </p>
                   </div>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-bold uppercase">2. Subscription and Communications</h3>
-                    <p className="uppercase">
+                  <div>
+                    <h3 className="font-bold mb-2">2. Subscription and Communications</h3>
+                    <p>
                       By subscribing to the Newsletter, you consent to receive emails from us, including updates, promotions, and other content related to The Reach Report × Dylan Huey. You may unsubscribe at any time by clicking the "Unsubscribe" link included in every email.
                     </p>
                   </div>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-bold uppercase">3. Intellectual Property</h3>
-                    <p className="uppercase">
+                  <div>
+                    <h3 className="font-bold mb-2">3. Intellectual Property</h3>
+                    <p>
                       All content included in the Newsletter, including text, graphics, images, and logos, is the property of Reach Projects, Inc. or its content providers and is protected by copyright, trademark, and other laws. You may not reproduce, distribute, or otherwise use any content without our prior written consent.
                     </p>
                   </div>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-bold uppercase">4. Disclaimer of Warranties</h3>
-                    <p className="uppercase">
+                  <div>
+                    <h3 className="font-bold mb-2">4. Disclaimer of Warranties</h3>
+                    <p>
                       The Newsletter and its content are provided on an "as is" and "as available" basis without warranties of any kind, either express or implied. We disclaim all warranties, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement.
                     </p>
                   </div>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-bold uppercase">5. Limitation of Liability</h3>
-                    <p className="uppercase">
+                  <div>
+                    <h3 className="font-bold mb-2">5. Limitation of Liability</h3>
+                    <p>
                       To the maximum extent permitted by law, Reach Projects, Inc. shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or relating to your use of the Newsletter.
                     </p>
                   </div>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-bold uppercase">6. Third-Party Links</h3>
-                    <p className="uppercase">
+                  <div>
+                    <h3 className="font-bold mb-2">6. Third-Party Links</h3>
+                    <p>
                       The Newsletter may contain links to third-party websites or services. We are not responsible for the content or privacy practices of such third parties. Accessing third-party links is at your own risk.
                     </p>
                   </div>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-bold uppercase">7. Changes to the Terms</h3>
-                    <p className="uppercase">
+                  <div>
+                    <h3 className="font-bold mb-2">7. Changes to the Terms</h3>
+                    <p>
                       We reserve the right to modify these Terms at any time. If we make material changes, we will notify you by updating the effective date or by sending an email. Your continued use of the Newsletter after such changes indicates your acceptance of the updated Terms.
                     </p>
                   </div>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-bold uppercase">8. Termination</h3>
-                    <p className="uppercase">
+                  <div>
+                    <h3 className="font-bold mb-2">8. Termination</h3>
+                    <p>
                       We reserve the right to terminate or suspend your access to the Newsletter at any time, without prior notice or liability, for any reason including violation of these Terms.
                     </p>
                   </div>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-bold uppercase">9. Governing Law</h3>
-                    <p className="uppercase">
+                  <div>
+                    <h3 className="font-bold mb-2">9. Governing Law</h3>
+                    <p>
                       These Terms shall be governed by and construed in accordance with the laws of the State of California, without regard to its conflict of law provisions.
                     </p>
                   </div>
                   
-                  <div className="space-y-2">
-                    <h3 className="font-bold uppercase">10. Contact Information</h3>
-                    <p className="uppercase">
+                  <div>
+                    <h3 className="font-bold mb-2">10. Contact Information</h3>
+                    <p>
                       If you have any questions or concerns about these Terms, please contact us at:
                     </p>
-                    <p className="mt-2 uppercase">
+                    <p className="mt-2">
                       Reach Projects, Inc.<br />
                       Email: postmaster@reachprojects.co
                     </p>
