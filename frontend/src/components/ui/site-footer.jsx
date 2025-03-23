@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 const SiteFooter = ({ isMobile }) => {
   const [contactForm, setContactForm] = useState({
     name: "",
-    email: "", 
+    email: "",
     message: ""
   });
 
