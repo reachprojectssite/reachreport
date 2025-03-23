@@ -13,11 +13,11 @@ import {
   Clock, 
   ChevronRight 
 } from "lucide-react";
+import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
 import SiteFooter from "@/components/ui/site-footer";
-import { useToast } from "@/hooks/use-toast";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -26,11 +26,9 @@ export default function Home() {
   const [isStatsVisible, setIsStatsVisible] = useState(false);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [isBellAnimated, setIsBellAnimated] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const statsRef = useRef(null);
   const iframeRef = useRef(null);
   const isMobile = useIsMobile();
-  const { toast } = useToast();
   
   const words = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
   
@@ -95,67 +93,26 @@ export default function Home() {
   const handleSubscribe = async (e) => {
     e.preventDefault();
     
-    if (!email || !email.includes('@')) {
-      toast({
-        title: "Invalid email",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    setIsSubmitting(true);
-    
-    try {
-      // Store the email for retry mechanism
-      const emailToSubmit = email;
-      
-      // Reset form immediately for better UX
-      setEmail('');
-      
-      // Trigger bell animation
-      setIsBellAnimated(true);
-      setTimeout(() => setIsBellAnimated(false), 1000);
-      
-      // Add to Google Sheet
-      const timestamp = new Date().toISOString();
-      const source = "website";
-      
-      // Use the Google Sheets API directly through the browser
-      const spreadsheetId = '132lbXx5u1NE5jfvpDYtfgCwCjZhM-1_fw_lJMBGKRj0';
-      
-      // Add the subscriber to the Google Sheet
-      await fetch('/api/add-to-sheet', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          spreadsheetId,
-          values: [[emailToSubmit, source, timestamp]],
-        }),
-      });
-      
-      // Open beehiiv subscription in new tab (existing functionality)
-      const subscribeUrl = `https://embeds.beehiiv.com/32491422-c94a-40b2-baec-c90cbb498271?email=${encodeURIComponent(emailToSubmit)}`;
-      window.open(subscribeUrl, '_blank');
-      
-      toast({
-        title: "Subscription successful!",
-        description: "Thank you for subscribing to The REACH Report.",
-      });
-    } catch (error) {
-      console.error('Subscription error:', error);
-      toast({
-        title: "Subscription failed",
-        description: "There was an error processing your subscription. Please try again.",
-        variant: "destructive",
-      });
-      
-      // Restore the email for retry
-      setEmail(email);
-    } finally {
-      setIsSubmitting(false);
+    // Find the iframe's email input and submit button
+    if (iframeRef.current) {
+      try {
+        // Store the email for retry mechanism
+        const emailToSubmit = email;
+        
+        // Reset form immediately for better UX
+        setEmail('');
+        
+        // Trigger bell animation
+        setIsBellAnimated(true);
+        setTimeout(() => setIsBellAnimated(false), 1000);
+        
+        // Create a new tab with the subscription URL and email param
+        const subscribeUrl = `https://embeds.beehiiv.com/32491422-c94a-40b2-baec-c90cbb498271?email=${encodeURIComponent(emailToSubmit)}`;
+        window.open(subscribeUrl, '_blank');
+      } catch (error) {
+        console.error('Subscription error:', error);
+        // Optionally show an error message to the user
+      }
     }
   };
 
@@ -279,7 +236,6 @@ export default function Home() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="rounded-md pr-6 h-10 sm:h-auto"
-                disabled={isSubmitting}
               />
               {/* Interactive green dot - changes color based on input */}
               <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full transition-colors duration-300 ${
@@ -294,10 +250,9 @@ export default function Home() {
                 }`}
                 onMouseEnter={() => setIsButtonHovered(true)}
                 onMouseLeave={() => setIsButtonHovered(false)}
-                disabled={isSubmitting}
               >
                 <span className="relative z-10 flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
-                  {isSubmitting ? "Subscribing..." : "Subscribe for free"}
+                  Subscribe for free
                   <Sparkles 
                     size={isMobile ? 14 : 16} 
                     className={`transition-all duration-500 ${
@@ -474,7 +429,6 @@ export default function Home() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="rounded-md pr-6 h-10 sm:h-auto"
-                disabled={isSubmitting}
               />
               {/* Interactive green dot - changes color based on input */}
               <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full transition-colors duration-300 ${
@@ -484,9 +438,8 @@ export default function Home() {
             <Button 
               type="submit"
               className="w-full bg-black text-white hover:bg-gray-800 group relative overflow-hidden h-10 sm:h-auto text-sm sm:text-base"
-              disabled={isSubmitting}
             >
-              <span className="relative z-10">{isSubmitting ? "Subscribing..." : "Subscribe for free"}</span>
+              <span className="relative z-10">Subscribe for free</span>
               <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
             </Button>
           </form>
