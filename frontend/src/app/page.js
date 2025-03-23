@@ -1,87 +1,16 @@
 "use client";
 
-import { useState, useEffect, useRef, memo, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import dynamic from 'next/dynamic';
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
-
-// Dynamically import icons to reduce initial bundle size
-const Users = dynamic(() => import('lucide-react').then(mod => mod.Users), { ssr: false });
-const Sparkles = dynamic(() => import('lucide-react').then(mod => mod.Sparkles), { ssr: false });
-const Bell = dynamic(() => import('lucide-react').then(mod => mod.Bell), { ssr: false });
-const ArrowRight = dynamic(() => import('lucide-react').then(mod => mod.ArrowRight), { ssr: false });
-const Clock = dynamic(() => import('lucide-react').then(mod => mod.Clock), { ssr: false });
-const ChevronRight = dynamic(() => import('lucide-react').then(mod => mod.ChevronRight), { ssr: false });
-
-// Lazy load the footer component
-const SiteFooter = dynamic(() => import('@/components/ui/site-footer'), {
-  ssr: false,
-  loading: () => <footer className="border-t border-gray-200 py-6 sm:py-8 px-4"></footer>
-});
-
-// Memoized components for better performance
-const HeroSection = memo(({ currentWord, words }) => (
-  <div className="text-center mb-12 sm:mb-16">
-    <p className="text-gray-500 uppercase tracking-wider text-xs sm:text-sm mb-2">FOR THE NEXT GENERATION OF</p>
-    <h1 className="text-4xl sm:text-6xl font-bold mb-4 relative h-16 sm:h-24 flex items-center justify-center">
-      {words.map((word, index) => (
-        <span 
-          key={word}
-          className="absolute inset-0 flex justify-center items-center opacity-0 transition-opacity duration-500" 
-          style={{ opacity: currentWord === index ? 1 : 0 }}
-        >
-          {word}
-        </span>
-      ))}
-    </h1>
-    <h2 className="text-xl sm:text-3xl font-medium flex items-center justify-center gap-1 sm:gap-2">
-      The REACH Report <span className="text-gray-400">×</span> Dylan Huey
-      <span className="text-yellow-400 text-xl sm:text-2xl">✧</span>
-    </h2>
-  </div>
-));
-
-HeroSection.displayName = 'HeroSection';
-
-const InsightCard = memo(({ insight, isMobile }) => (
-  <Card 
-    key={insight.id} 
-    className="overflow-hidden group hover:shadow-lg transition-all duration-300 border-t-2 border-transparent hover:border-t-2 hover:border-indigo-500"
-  >
-    <div className="p-4 sm:p-5">
-      <div className="flex items-center justify-between mb-2 sm:mb-3">
-        <Badge className="bg-indigo-100 text-indigo-800 text-xs py-0.5">
-          {insight.category}
-        </Badge>
-        <div className="flex items-center text-xs sm:text-sm text-gray-500">
-          <Clock size={12} className="mr-1" />
-          {insight.date}
-        </div>
-      </div>
-
-      <h3 className="font-bold text-base sm:text-lg mb-2 sm:mb-3 group-hover:text-indigo-700 transition-colors duration-300">
-        {insight.title}
-      </h3>
-
-      <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">
-        {insight.excerpt}
-      </p>
-
-      <div className="flex items-center text-indigo-600 text-xs sm:text-sm font-medium group-hover:text-indigo-800 transition-colors duration-300">
-        Read more
-        <ArrowRight size={12} className="ml-1 transition-transform duration-300 group-hover:translate-x-1" />
-      </div>
-    </div>
-  </Card>
-));
-
-InsightCard.displayName = 'InsightCard';
+import { Users, Sparkles, Bell, ArrowRight, Clock, ChevronRight } from "lucide-react";
+import SiteFooter from '@/components/ui/site-footer';
 
 // Pre-defined static data
 const WORDS = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
@@ -123,7 +52,7 @@ export default function Home() {
   const iframeRef = useRef(null);
   const isMobile = useIsMobile();
   
-  // Word rotation effect - optimized with useCallback
+  // Word rotation effect
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentWord((prev) => (prev + 1) % WORDS.length);
@@ -131,7 +60,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Subscriber counter animation - optimized with IntersectionObserver
+  // Subscriber counter animation
   useEffect(() => {
     if (!statsRef.current) return;
     
@@ -153,7 +82,7 @@ export default function Home() {
     };
   }, []);
 
-  // Animate subscriber count - optimized with requestAnimationFrame
+  // Animate subscriber count
   useEffect(() => {
     if (!isStatsVisible) return;
     
@@ -177,7 +106,7 @@ export default function Home() {
     requestAnimationFrame(animate);
   }, [isStatsVisible]);
 
-  // Bell animation - optimized with useCallback
+  // Bell animation
   useEffect(() => {
     const interval = setInterval(() => {
       setIsBellAnimated(true);
@@ -187,8 +116,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Memoize event handlers
-  const handleSubscribe = useCallback(async (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
     
     // Find the iframe's email input and submit button
@@ -209,42 +137,21 @@ export default function Home() {
         window.open(subscribeUrl, '_blank');
       } catch (error) {
         console.error('Subscription error:', error);
-        // Optionally show an error message to the user
       }
     }
-  }, [email]);
+  };
 
-  // Memoize event handlers for better performance
-  const handleMouseMove = useCallback((e) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    
-    const rotateX = (y - centerY) / 20;
-    const rotateY = (centerX - x) / 20;
-    
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  }, []);
-
-  const handleMouseLeave = useCallback((e) => {
-    e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-  }, []);
-
-  const handleEmailChange = useCallback((e) => {
+  const handleEmailChange = (e) => {
     setEmail(e.target.value);
-  }, []);
+  };
 
-  const handleButtonHoverEnter = useCallback(() => {
+  const handleButtonHoverEnter = () => {
     setIsButtonHovered(true);
-  }, []);
+  };
 
-  const handleButtonHoverLeave = useCallback(() => {
+  const handleButtonHoverLeave = () => {
     setIsButtonHovered(false);
-  }, []);
+  };
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-white">
@@ -258,14 +165,14 @@ export default function Home() {
         loading="lazy"
       />
 
-      {/* Repositioned background gradient elements to avoid covering key content */}
-      <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow will-change-transform" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium will-change-transform" />
-      <div className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60 animate-float-fast will-change-transform" />
-      <div className="absolute bottom-1/4 left-0 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60 animate-float-reverse will-change-transform" />
-      <div className="absolute top-3/4 left-1/4 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50 animate-pulse-slow will-change-opacity" />
+      {/* Background gradient elements */}
+      <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium" />
+      <div className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60 animate-float-fast" />
+      <div className="absolute bottom-1/4 left-0 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60 animate-float-reverse" />
+      <div className="absolute top-3/4 left-1/4 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50 animate-pulse-slow" />
 
-      {/* Header with ring around REACH X Dylan Huey */}
+      {/* Header */}
       <header className="flex justify-between items-center p-4 sm:p-5">
         <div className="font-bold text-base sm:text-lg border rounded-full px-3 py-1 sm:px-4 sm:py-1">REACH X Dylan Huey</div>
         <Button variant="outline" className="rounded-full text-sm sm:text-base">Archive</Button>
@@ -273,15 +180,28 @@ export default function Home() {
 
       {/* Main content */}
       <main className="w-full max-w-4xl mx-auto px-4 pt-12 sm:pt-20 pb-20 sm:pb-32 relative z-10">
-        {/* Hero Section - Memoized */}
-        <HeroSection currentWord={currentWord} words={WORDS} />
+        {/* Hero Section */}
+        <div className="text-center mb-12 sm:mb-16">
+          <p className="text-gray-500 uppercase tracking-wider text-xs sm:text-sm mb-2">FOR THE NEXT GENERATION OF</p>
+          <h1 className="text-4xl sm:text-6xl font-bold mb-4 relative h-16 sm:h-24 flex items-center justify-center">
+            {WORDS.map((word, index) => (
+              <span 
+                key={word}
+                className="absolute inset-0 flex justify-center items-center opacity-0 transition-opacity duration-500" 
+                style={{ opacity: currentWord === index ? 1 : 0 }}
+              >
+                {word}
+              </span>
+            ))}
+          </h1>
+          <h2 className="text-xl sm:text-3xl font-medium flex items-center justify-center gap-1 sm:gap-2">
+            The REACH Report <span className="text-gray-400">×</span> Dylan Huey
+            <span className="text-yellow-400 text-xl sm:text-2xl">✧</span>
+          </h2>
+        </div>
 
-        {/* Subscription card with 3D effect */}
-        <Card 
-          className="w-full max-w-md mx-auto p-5 sm:p-6 shadow-lg transition-all duration-300 bg-white relative overflow-hidden"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-        >
+        {/* Subscription card */}
+        <Card className="w-full max-w-md mx-auto p-5 sm:p-6 shadow-lg transition-all duration-300 bg-white relative overflow-hidden">
           <div className="mb-5 sm:mb-6">
             <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Join the community</h3>
             <p className="text-gray-600 text-sm sm:text-base">Get the latest insights biweekly.</p>
@@ -296,7 +216,7 @@ export default function Home() {
                 onChange={handleEmailChange}
                 className="rounded-md pr-6 h-10 sm:h-auto"
               />
-              {/* Interactive green dot - changes color based on input */}
+              {/* Interactive green dot */}
               <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full transition-colors duration-300 ${
                 email.length > 0 ? 'bg-green-500' : 'bg-gray-300'
               }`}></div>
@@ -322,14 +242,14 @@ export default function Home() {
                 <span className={`absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></span>
               </Button>
 
-              {/* Interactive button glow effect */}
+              {/* Button glow effect */}
               <div className={`absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 blur-xl opacity-0 transition-opacity duration-500 ${
                 isButtonHovered ? 'opacity-30' : ''
               }`}></div>
             </div>
           </form>
 
-          {/* Card background glow effect */}
+          {/* Card background glow */}
           <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 blur-2xl opacity-30"></div>
         </Card>
 
@@ -352,7 +272,6 @@ export default function Home() {
                     src="https://www.bu.edu/bhr/files/2024/04/1704348040324-636x636.jpg" 
                     alt="Dylan Huey"
                     loading="lazy"
-                    fetchPriority="low"
                   />
                   <AvatarFallback>DH</AvatarFallback>
                 </Avatar>
@@ -364,10 +283,10 @@ export default function Home() {
 
             <div className="md:col-span-2 space-y-3 sm:space-y-4">
               <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
-                <Badge className="bg-indigo-100 text-indigo-800 hover:bg-indigo-200 transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm py-0.5">Creator Economy</Badge>
-                <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200 transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm py-0.5">Marketing</Badge>
-                <Badge className="bg-pink-100 text-pink-800 hover:bg-pink-200 transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm py-0.5">Social Media</Badge>
-                <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200 transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm py-0.5">Gen Z</Badge>
+                <Badge className="bg-indigo-100 text-indigo-800 hover:bg-indigo-200 transition-all duration-300 text-xs sm:text-sm py-0.5">Creator Economy</Badge>
+                <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200 transition-all duration-300 text-xs sm:text-sm py-0.5">Marketing</Badge>
+                <Badge className="bg-pink-100 text-pink-800 hover:bg-pink-200 transition-all duration-300 text-xs sm:text-sm py-0.5">Social Media</Badge>
+                <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200 transition-all duration-300 text-xs sm:text-sm py-0.5">Gen Z</Badge>
               </div>
 
               <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
@@ -390,7 +309,35 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             {LATEST_INSIGHTS.map((insight) => (
-              <InsightCard key={insight.id} insight={insight} isMobile={isMobile} />
+              <Card 
+                key={insight.id} 
+                className="overflow-hidden group hover:shadow-lg transition-all duration-300 border-t-2 border-transparent hover:border-t-2 hover:border-indigo-500"
+              >
+                <div className="p-4 sm:p-5">
+                  <div className="flex items-center justify-between mb-2 sm:mb-3">
+                    <Badge className="bg-indigo-100 text-indigo-800 text-xs py-0.5">
+                      {insight.category}
+                    </Badge>
+                    <div className="flex items-center text-xs sm:text-sm text-gray-500">
+                      <Clock size={12} className="mr-1" />
+                      {insight.date}
+                    </div>
+                  </div>
+
+                  <h3 className="font-bold text-base sm:text-lg mb-2 sm:mb-3 group-hover:text-indigo-700 transition-colors duration-300">
+                    {insight.title}
+                  </h3>
+
+                  <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">
+                    {insight.excerpt}
+                  </p>
+
+                  <div className="flex items-center text-indigo-600 text-xs sm:text-sm font-medium group-hover:text-indigo-800 transition-colors duration-300">
+                    Read more
+                    <ArrowRight size={12} className="ml-1 transition-transform duration-300 group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </Card>
             ))}
           </div>
 
@@ -402,7 +349,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Why Join Our Community Section - No background gradients to ensure content visibility */}
+        {/* Why Join Our Community Section */}
         <div ref={statsRef} className="mt-20 sm:mt-32 mb-16 sm:mb-20 relative z-20">
           <h2 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-10">Why Join Our Community?</h2>
 
@@ -466,7 +413,6 @@ export default function Home() {
                 onChange={handleEmailChange}
                 className="rounded-md pr-6 h-10 sm:h-auto"
               />
-              {/* Interactive green dot - changes color based on input */}
               <div className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 rounded-full transition-colors duration-300 ${
                 email.length > 0 ? 'bg-green-500' : 'bg-gray-300'
               }`}></div>

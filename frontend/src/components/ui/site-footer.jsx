@@ -66,101 +66,23 @@ const SiteFooter = ({ isMobile }) => {
               </DialogTrigger>
               <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto mx-4 sm:mx-auto">
                 <DialogHeader>
-                  <DialogTitle className="text-lg sm:text-xl font-bold">Privacy Policy for The REACH Report × Dylan Huey</DialogTitle>
+                  <DialogTitle className="text-lg sm:text-xl font-bold">Privacy Policy</DialogTitle>
                   <DialogDescription className="text-xs sm:text-sm text-gray-500">Effective Date: January 1, 2025</DialogDescription>
                 </DialogHeader>
                 <div className="mt-4 text-xs sm:text-sm">
                   <p className="mb-4">
-                    THIS PRIVACY POLICY OUTLINES HOW REACH PROJECTS, INC. ("WE," "US," OR "OUR") COLLECTS, USES, AND PROTECTS YOUR PERSONAL INFORMATION WHEN YOU SUBSCRIBE TO THE REACH REPORT × DYLAN HUEY NEWSLETTER ("NEWSLETTER"). BY SUBSCRIBING, YOU AGREE TO THE TERMS OF THIS PRIVACY POLICY.
+                    This privacy policy outlines how we collect, use, and protect your personal information when you subscribe to our newsletter.
                   </p>
                   
-                  <h3 className="font-bold mt-6 mb-2">INFORMATION WE COLLECT</h3>
-                  <p className="mb-4">WHEN YOU SUBSCRIBE TO THE NEWSLETTER, WE MAY COLLECT:</p>
-                  <ul className="list-disc pl-6 mb-4 space-y-1">
-                    <li>YOUR NAME</li>
-                    <li>YOUR EMAIL ADDRESS</li>
-                    <li>ANY OTHER INFORMATION VOLUNTARILY PROVIDED BY YOU</li>
-                  </ul>
+                  <h3 className="font-bold mt-4 mb-2">Information We Collect</h3>
+                  <p className="mb-2">When you subscribe, we collect your email address and any other information you voluntarily provide.</p>
                   
-                  <h3 className="font-bold mt-6 mb-2">HOW WE USE YOUR INFORMATION</h3>
-                  <p className="mb-4">WE USE YOUR INFORMATION TO:</p>
-                  <ul className="list-disc pl-6 mb-4 space-y-1">
-                    <li>SEND YOU THE NEWSLETTER, UPDATES, AND RELATED CONTENT</li>
-                    <li>COMMUNICATE WITH YOU ABOUT NEWSLETTER FEATURES, UPDATES, AND CHANGES</li>
-                    <li>MONITOR, ANALYZE, AND IMPROVE THE PERFORMANCE AND EFFECTIVENESS OF THE NEWSLETTER</li>
-                    <li>COMPLY WITH LEGAL AND REGULATORY REQUIREMENTS</li>
-                  </ul>
+                  <h3 className="font-bold mt-4 mb-2">How We Use Your Information</h3>
+                  <p className="mb-2">We use your information to send you the newsletter and related content, and to improve our services.</p>
                   
-                  <h3 className="font-bold mt-6 mb-2">DATA USAGE, ANALYTICS, AND TRACKING</h3>
-                  <p className="mb-4">
-                    WE MAY USE EMAIL ANALYTICS TO TRACK EMAIL OPEN RATES, CLICK-THROUGH RATES, AND OTHER ENGAGEMENT METRICS. WE USE THIS DATA TO UNDERSTAND HOW OUR NEWSLETTER IS PERFORMING AND TO IMPROVE CONTENT DELIVERY. THIS MAY INCLUDE THE USE OF TRACKING PIXELS, COOKIES, AND THIRD-PARTY ANALYTICS SERVICES.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">DISCLOSURE OF INFORMATION</h3>
-                  <p className="mb-4">WE DO NOT SELL OR RENT YOUR PERSONAL INFORMATION. WE MAY SHARE YOUR INFORMATION IN THE FOLLOWING INSTANCES:</p>
-                  <ul className="list-disc pl-6 mb-4 space-y-1">
-                    <li>WITH TRUSTED THIRD-PARTY SERVICE PROVIDERS WHO ASSIST IN OPERATING THE NEWSLETTER UNDER STRICT CONFIDENTIALITY AGREEMENTS</li>
-                    <li>TO COMPLY WITH LEGAL REQUIREMENTS, LAW ENFORCEMENT REQUESTS, OR COURT ORDERS</li>
-                    <li>TO PROTECT OUR RIGHTS, PROPERTY, OR SAFETY, OR THAT OF OTHERS</li>
-                  </ul>
-                  
-                  <h3 className="font-bold mt-6 mb-2">INTERNATIONAL DATA TRANSFERS AND COMPLIANCE</h3>
-                  <p className="mb-4">
-                    IF YOU ARE LOCATED OUTSIDE THE UNITED STATES, YOUR INFORMATION MAY BE TRANSFERRED TO AND PROCESSED IN THE UNITED STATES. BY SUBMITTING YOUR INFORMATION, YOU CONSENT TO THIS TRANSFER, PROCESSING, AND STORAGE. WE COMPLY WITH INTERNATIONAL DATA PROTECTION LAWS INCLUDING:
-                  </p>
-                  <ul className="list-disc pl-6 mb-4 space-y-1">
-                    <li>GENERAL DATA PROTECTION REGULATION (GDPR) FOR INDIVIDUALS IN THE EUROPEAN ECONOMIC AREA (EEA)</li>
-                    <li>PERSONAL INFORMATION PROTECTION AND ELECTRONIC DOCUMENTS ACT (PIPEDA) FOR CANADIAN RESIDENTS</li>
-                  </ul>
-                  <p className="mb-4">
-                    IF YOU ARE COVERED UNDER THESE REGULATIONS, YOU HAVE THE FOLLOWING RIGHTS:
-                  </p>
-                  <ul className="list-disc pl-6 mb-4 space-y-1">
-                    <li>THE RIGHT TO ACCESS, CORRECT, OR DELETE YOUR PERSONAL DATA</li>
-                    <li>THE RIGHT TO OBJECT TO PROCESSING OR REQUEST RESTRICTIONS</li>
-                    <li>THE RIGHT TO DATA PORTABILITY</li>
-                  </ul>
-                  <p className="mb-4">
-                    TO EXERCISE ANY OF THESE RIGHTS, PLEASE CONTACT US AT POSTMASTER@REACHPROJECTS.CO.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">DATA RETENTION</h3>
-                  <p className="mb-4">
-                    WE RETAIN YOUR PERSONAL INFORMATION ONLY AS LONG AS NECESSARY TO PROVIDE YOU WITH THE NEWSLETTER AND FOR LEGITIMATE BUSINESS PURPOSES, UNLESS A LONGER RETENTION PERIOD IS REQUIRED BY LAW.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">YOUR CHOICES AND UNSUBSCRIBE</h3>
-                  <p className="mb-4">
-                    YOU MAY ONLY UNSUBSCRIBE FROM THE NEWSLETTER BY CLICKING THE "UNSUBSCRIBE" LINK INCLUDED AT THE BOTTOM OF EACH EMAIL. WE DO NOT ACCEPT UNSUBSCRIBE REQUESTS VIA EMAIL, PHONE, OR ANY OTHER METHOD. ONCE UNSUBSCRIBED, YOU WILL NO LONGER RECEIVE THE NEWSLETTER, BUT WE MAY RETAIN YOUR INFORMATION FOR RECORD-KEEPING AND LEGAL PURPOSES.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">THIRD-PARTY LINKS</h3>
-                  <p className="mb-4">
-                    THE NEWSLETTER MAY CONTAIN LINKS TO THIRD-PARTY WEBSITES. WE ARE NOT RESPONSIBLE FOR THE PRIVACY PRACTICES, CONTENT, OR SECURITY OF THESE SITES. WE ENCOURAGE YOU TO REVIEW THEIR PRIVACY POLICIES.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">SECURITY MEASURES</h3>
-                  <p className="mb-4">
-                    WE TAKE REASONABLE STEPS TO PROTECT YOUR PERSONAL INFORMATION. HOWEVER, NO INTERNET OR EMAIL TRANSMISSION IS EVER FULLY SECURE OR ERROR-FREE. YOU PROVIDE INFORMATION AT YOUR OWN RISK.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">CHILDREN'S PRIVACY</h3>
-                  <p className="mb-4">
-                    THE NEWSLETTER IS INTENDED FOR USERS 18 YEARS OF AGE OR OLDER. WE DO NOT KNOWINGLY COLLECT PERSONAL INFORMATION FROM CHILDREN UNDER 13 YEARS OLD. IF YOU BELIEVE WE HAVE COLLECTED SUCH INFORMATION, CONTACT US IMMEDIATELY.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">CHANGES TO THIS PRIVACY POLICY</h3>
-                  <p className="mb-4">
-                    WE MAY UPDATE THIS PRIVACY POLICY FROM TIME TO TIME. ANY CHANGES WILL BE POSTED IN THE NEWSLETTER OR SENT VIA EMAIL. YOUR CONTINUED USE OF THE NEWSLETTER AFTER CHANGES ARE MADE INDICATES ACCEPTANCE OF THE UPDATED POLICY.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">CONTACT US</h3>
-                  <p className="mb-4">
-                    IF YOU HAVE QUESTIONS OR WISH TO EXERCISE YOUR RIGHTS UNDER THIS POLICY, PLEASE CONTACT:
-                  </p>
-                  <p className="mb-4">
-                    REACH PROJECTS, INC.<br />
-                    EMAIL: POSTMASTER@REACHPROJECTS.CO
+                  <h3 className="font-bold mt-4 mb-2">Contact Us</h3>
+                  <p className="mb-2">
+                    If you have questions, please contact: postmaster@reachprojects.co
                   </p>
                 </div>
               </DialogContent>
@@ -175,106 +97,27 @@ const SiteFooter = ({ isMobile }) => {
               </DialogTrigger>
               <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto mx-4 sm:mx-auto">
                 <DialogHeader>
-                  <DialogTitle className="text-lg sm:text-xl font-bold">Terms of Service for The REACH Report × Dylan Huey</DialogTitle>
+                  <DialogTitle className="text-lg sm:text-xl font-bold">Terms of Service</DialogTitle>
                   <DialogDescription className="text-xs sm:text-sm text-gray-500">Effective Date: January 1, 2025</DialogDescription>
                 </DialogHeader>
                 <div className="mt-4 text-xs sm:text-sm">
                   <p className="mb-4">
-                    THESE TERMS OF SERVICE ("TERMS") GOVERN YOUR ACCESS TO AND USE OF THE REACH REPORT × DYLAN HUEY NEWSLETTER ("NEWSLETTER"). BY SUBSCRIBING TO OR USING THE NEWSLETTER, YOU AGREE TO BE BOUND BY THESE TERMS.
+                    These terms govern your access to and use of our newsletter.
                   </p>
                   
-                  <h3 className="font-bold mt-6 mb-2">ACCEPTANCE OF TERMS</h3>
-                  <p className="mb-4">
-                    BY SUBSCRIBING TO THE NEWSLETTER, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THESE TERMS. IF YOU DO NOT AGREE TO THESE TERMS, DO NOT SUBSCRIBE TO OR USE THE NEWSLETTER.
-                  </p>
+                  <h3 className="font-bold mt-4 mb-2">Acceptance of Terms</h3>
+                  <p className="mb-2">By subscribing, you agree to these terms.</p>
                   
-                  <h3 className="font-bold mt-6 mb-2">NEWSLETTER DESCRIPTION</h3>
-                  <p className="mb-4">
-                    THE REACH REPORT × DYLAN HUEY IS A BIWEEKLY NEWSLETTER PROVIDING INFORMATION, ANALYSIS, AND INSIGHTS RELATED TO MARKETING, SOCIAL MEDIA, AND THE CREATOR ECONOMY. THE NEWSLETTER IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND.
-                  </p>
+                  <h3 className="font-bold mt-4 mb-2">Intellectual Property</h3>
+                  <p className="mb-2">All content is protected by copyright laws.</p>
                   
-                  <h3 className="font-bold mt-6 mb-2">SUBSCRIPTION AND DELIVERY</h3>
-                  <p className="mb-4">
-                    TO RECEIVE THE NEWSLETTER, YOU MUST PROVIDE A VALID EMAIL ADDRESS. WE WILL SEND THE NEWSLETTER TO THE EMAIL ADDRESS YOU PROVIDE. YOU ARE RESPONSIBLE FOR ENSURING THAT YOUR EMAIL ADDRESS IS ACCURATE AND REMAINS CURRENT.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">INTELLECTUAL PROPERTY RIGHTS</h3>
-                  <p className="mb-4">
-                    ALL CONTENT IN THE NEWSLETTER, INCLUDING BUT NOT LIMITED TO TEXT, GRAPHICS, LOGOS, IMAGES, AND DATA COMPILATIONS, IS THE PROPERTY OF REACH PROJECTS, INC. OR ITS CONTENT SUPPLIERS AND IS PROTECTED BY UNITED STATES AND INTERNATIONAL COPYRIGHT LAWS.
-                  </p>
-                  <p className="mb-4">
-                    YOU MAY NOT REPRODUCE, DISTRIBUTE, MODIFY, CREATE DERIVATIVE WORKS OF, PUBLICLY DISPLAY, PUBLICLY PERFORM, REPUBLISH, DOWNLOAD, STORE, OR TRANSMIT ANY CONTENT FROM THE NEWSLETTER WITHOUT OUR PRIOR WRITTEN CONSENT, EXCEPT FOR:
-                  </p>
-                  <ul className="list-disc pl-6 mb-4 space-y-1">
-                    <li>TEMPORARY STORAGE OF COPIES SOLELY AS NECESSARY TO VIEW THE NEWSLETTER</li>
-                    <li>STORING FILES AUTOMATICALLY CACHED BY YOUR WEB BROWSER FOR DISPLAY ENHANCEMENT PURPOSES</li>
-                    <li>PRINTING A REASONABLE NUMBER OF PAGES FROM THE NEWSLETTER FOR PERSONAL, NON-COMMERCIAL USE</li>
-                  </ul>
-                  
-                  <h3 className="font-bold mt-6 mb-2">USER CONDUCT</h3>
-                  <p className="mb-4">
-                    YOU AGREE NOT TO USE THE NEWSLETTER:
-                  </p>
-                  <ul className="list-disc pl-6 mb-4 space-y-1">
-                    <li>IN ANY WAY THAT VIOLATES APPLICABLE LAWS OR REGULATIONS</li>
-                    <li>TO IMPERSONATE OR ATTEMPT TO IMPERSONATE REACH PROJECTS, INC., ITS EMPLOYEES, OR OTHER USERS</li>
-                    <li>TO ENGAGE IN ANY CONDUCT THAT RESTRICTS OR INHIBITS ANYONE'S USE OF THE NEWSLETTER</li>
-                    <li>TO ATTEMPT TO GAIN UNAUTHORIZED ACCESS TO THE NEWSLETTER OR RELATED SYSTEMS</li>
-                  </ul>
-                  
-                  <h3 className="font-bold mt-6 mb-2">THIRD-PARTY LINKS</h3>
-                  <p className="mb-4">
-                    THE NEWSLETTER MAY CONTAIN LINKS TO THIRD-PARTY WEBSITES OR SERVICES THAT ARE NOT OWNED OR CONTROLLED BY REACH PROJECTS, INC. WE HAVE NO CONTROL OVER, AND ASSUME NO RESPONSIBILITY FOR, THE CONTENT, PRIVACY POLICIES, OR PRACTICES OF ANY THIRD-PARTY WEBSITES OR SERVICES.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">DISCLAIMER OF WARRANTIES</h3>
-                  <p className="mb-4">
-                    THE NEWSLETTER IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS, WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. REACH PROJECTS, INC. DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">LIMITATION OF LIABILITY</h3>
-                  <p className="mb-4">
-                    IN NO EVENT SHALL REACH PROJECTS, INC., ITS OFFICERS, DIRECTORS, EMPLOYEES, OR AGENTS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF OR RELATED TO YOUR USE OF THE NEWSLETTER.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">INDEMNIFICATION</h3>
-                  <p className="mb-4">
-                    YOU AGREE TO INDEMNIFY, DEFEND, AND HOLD HARMLESS REACH PROJECTS, INC. AND ITS OFFICERS, DIRECTORS, EMPLOYEES, AND AGENTS FROM AND AGAINST ANY CLAIMS, LIABILITIES, DAMAGES, JUDGMENTS, AWARDS, LOSSES, COSTS, EXPENSES, OR FEES ARISING OUT OF OR RELATING TO YOUR VIOLATION OF THESE TERMS.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">TERMINATION</h3>
-                  <p className="mb-4">
-                    WE MAY TERMINATE OR SUSPEND YOUR ACCESS TO THE NEWSLETTER IMMEDIATELY, WITHOUT PRIOR NOTICE, FOR ANY REASON WHATSOEVER, INCLUDING WITHOUT LIMITATION IF YOU BREACH THESE TERMS.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">CHANGES TO TERMS</h3>
-                  <p className="mb-4">
-                    WE RESERVE THE RIGHT TO MODIFY OR REPLACE THESE TERMS AT ANY TIME. IF A REVISION IS MATERIAL, WE WILL PROVIDE AT LEAST 30 DAYS' NOTICE PRIOR TO ANY NEW TERMS TAKING EFFECT. WHAT CONSTITUTES A MATERIAL CHANGE WILL BE DETERMINED AT OUR SOLE DISCRETION.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">GOVERNING LAW</h3>
-                  <p className="mb-4">
-                    THESE TERMS SHALL BE GOVERNED BY AND CONSTRUED IN ACCORDANCE WITH THE LAWS OF THE STATE OF CALIFORNIA, WITHOUT REGARD TO ITS CONFLICT OF LAW PROVISIONS.
-                  </p>
-                  
-                  <h3 className="font-bold mt-6 mb-2">CONTACT US</h3>
-                  <p className="mb-4">
-                    IF YOU HAVE ANY QUESTIONS ABOUT THESE TERMS, PLEASE CONTACT US AT:
-                  </p>
-                  <p className="mb-4">
-                    REACH PROJECTS, INC.<br />
-                    EMAIL: POSTMASTER@REACHPROJECTS.CO
+                  <h3 className="font-bold mt-4 mb-2">Contact Us</h3>
+                  <p className="mb-2">
+                    If you have questions, please contact: postmaster@reachprojects.co
                   </p>
                 </div>
               </DialogContent>
             </Dialog>
-            
-            <a 
-              href="/donate" 
-              className="text-gray-600 hover:text-indigo-600 transition-colors text-sm sm:text-base"
-            >
-              Donate
-            </a>
             
             {/* Contact Dialog */}
             <Dialog>
@@ -311,17 +154,6 @@ const SiteFooter = ({ isMobile }) => {
                       value={contactForm.email} 
                       onChange={handleContactChange} 
                       required 
-                      className="h-9 sm:h-10"
-                    />
-                  </div>
-                  <div className="space-y-1 sm:space-y-2">
-                    <Label htmlFor="phone" className="text-sm">Phone Number</Label>
-                    <Input 
-                      id="phone" 
-                      name="phone" 
-                      type="tel" 
-                      value={contactForm.phone} 
-                      onChange={handleContactChange} 
                       className="h-9 sm:h-10"
                     />
                   </div>
