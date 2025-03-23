@@ -1,1 +1,1 @@
-// This file should be deleted
+javascript at the start of the file. Here's the corrected version with just one opening code fence:
