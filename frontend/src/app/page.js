@@ -21,9 +21,10 @@ export default function Home() {
   const [isBellAnimated, setIsBellAnimated] = useState(false);
   const statsRef = useRef(null);
   const isMobile = useIsMobile();
-  
+  const beehiivRef = useRef(null);
+
   const words = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
-  
+
   // Word rotation effect
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,7 +32,7 @@ export default function Home() {
     }, 2000);
     return () => clearInterval(interval);
   }, []);
-  
+
   // Subscriber counter animation
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -53,7 +54,7 @@ export default function Home() {
       }
     };
   }, []);
-  
+
   // Animate subscriber count
   useEffect(() => {
     if (isStatsVisible) {
@@ -71,7 +72,7 @@ export default function Home() {
       return () => clearInterval(interval);
     }
   }, [isStatsVisible]);
-  
+
   // Bell animation
   useEffect(() => {
     const interval = setInterval(() => {
@@ -81,7 +82,28 @@ export default function Home() {
     
     return () => clearInterval(interval);
   }, []);
-  
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    
+    // Find the beehiiv iframe's submit button and click it
+    const iframe = beehiivRef.current;
+    if (iframe) {
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      const emailInput = iframeDoc.querySelector('input[type="email"]');
+      const submitButton = iframeDoc.querySelector('button[type="submit"]');
+      
+      if (emailInput && submitButton) {
+        emailInput.value = email;
+        submitButton.click();
+      }
+    }
+    
+    // Keep your existing animation logic
+    setIsBellAnimated(true);
+    setTimeout(() => setIsBellAnimated(false), 1000);
+  };
+
   // Interactive card effect
   const handleMouseMove = (e) => {
     const card = e.currentTarget;
@@ -97,7 +119,7 @@ export default function Home() {
     
     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   };
-  
+
   const handleMouseLeave = (e) => {
     e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
   };
@@ -108,7 +130,7 @@ export default function Home() {
       id: 1,
       title: "The Rise of AI in Creator Marketing",
       excerpt: "How artificial intelligence is transforming content creation and audience targeting.",
-      category: "Tech Trends",
+      category: "Tech Trends", 
       date: "May 15, 2025",
       image: "/images/ai-marketing.jpg"
     },
@@ -132,19 +154,32 @@ export default function Home() {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-white">
+      {/* Hidden beehiiv iframe */}
+      <iframe 
+        ref={beehiivRef}
+        src="https://embeds.beehiiv.com/32491422-c94a-40b2-baec-c90cbb498271"
+        style={{ 
+          position: 'absolute', 
+          width: 0, 
+          height: 0, 
+          border: 'none', 
+          visibility: 'hidden' 
+        }}
+      />
+
       {/* Repositioned background gradient elements to avoid covering key content */}
       <div className="absolute top-0 left-0 w-80 h-80 rounded-full bg-purple-200 blur-3xl opacity-60 animate-float-slow" />
       <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-blue-200 blur-3xl opacity-70 animate-float-medium" />
       <div className="absolute top-1/4 right-0 w-64 h-64 rounded-full bg-pink-200 blur-3xl opacity-60 animate-float-fast" />
       <div className="absolute bottom-1/4 left-0 w-72 h-72 rounded-full bg-indigo-200 blur-3xl opacity-60 animate-float-reverse" />
       <div className="absolute top-3/4 left-1/4 w-60 h-60 rounded-full bg-yellow-100 blur-3xl opacity-50 animate-pulse-slow" />
-      
+
       {/* Header with ring around REACH X Dylan Huey */}
       <header className="flex justify-between items-center p-4 sm:p-5">
         <div className="font-bold text-base sm:text-lg border rounded-full px-3 py-1 sm:px-4 sm:py-1">REACH X Dylan Huey</div>
         <Button variant="outline" className="rounded-full text-sm sm:text-base">Archive</Button>
       </header>
-      
+
       {/* Main content */}
       <main className="w-full max-w-4xl mx-auto px-4 pt-12 sm:pt-20 pb-20 sm:pb-32 relative z-10">
         {/* Hero Section */}
@@ -173,7 +208,7 @@ export default function Home() {
             <span className="text-yellow-400 text-xl sm:text-2xl">✧</span>
           </h2>
         </div>
-        
+
         {/* Subscription card with 3D effect */}
         <Card 
           className="w-full max-w-md mx-auto p-5 sm:p-6 shadow-lg transition-all duration-300 bg-white relative overflow-hidden"
@@ -184,8 +219,8 @@ export default function Home() {
             <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Join the community</h3>
             <p className="text-gray-600 text-sm sm:text-base">Get the latest insights biweekly.</p>
           </div>
-          
-          <div className="space-y-3 sm:space-y-4 relative z-10">
+
+          <form onSubmit={handleSubscribe} className="space-y-3 sm:space-y-4 relative z-10">
             <div className="relative">
               <Input 
                 type="email" 
@@ -201,6 +236,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <Button 
+                type="submit"
                 className={`w-full bg-black text-white transition-all duration-500 overflow-hidden group h-10 sm:h-auto ${
                   isButtonHovered ? 'shadow-[0_0_15px_rgba(0,0,0,0.3)]' : ''
                 }`}
@@ -218,28 +254,28 @@ export default function Home() {
                 </span>
                 <span className={`absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></span>
               </Button>
-              
+
               {/* Interactive button glow effect */}
               <div className={`absolute inset-0 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 blur-xl opacity-0 transition-opacity duration-500 ${
                 isButtonHovered ? 'opacity-30' : ''
               }`}></div>
             </div>
-          </div>
-          
+          </form>
+
           {/* Card background glow effect */}
           <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 blur-2xl opacity-30"></div>
         </Card>
-        
+
         {/* About Section */}
         <div className="mt-20 sm:mt-32 mb-16 sm:mb-20 relative">
           <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full bg-indigo-100 blur-3xl opacity-30 animate-float-slow"></div>
           <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-purple-100 blur-3xl opacity-30 animate-float-medium"></div>
-          
+
           <h2 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-10 relative">
             What is The REACH Report
             <div className="absolute -top-6 -right-6 w-12 h-12 rounded-full bg-yellow-100 blur-xl opacity-70 animate-pulse-slow"></div>
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-center">
             <div className="md:col-span-1 flex justify-center">
               <div className="relative group">
@@ -253,7 +289,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            
+
             <div className="md:col-span-2 space-y-3 sm:space-y-4">
               <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                 <Badge className="bg-indigo-100 text-indigo-800 hover:bg-indigo-200 transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm py-0.5">Creator Economy</Badge>
@@ -261,25 +297,25 @@ export default function Home() {
                 <Badge className="bg-pink-100 text-pink-800 hover:bg-pink-200 transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm py-0.5">Social Media</Badge>
                 <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200 transition-all duration-300 transform hover:scale-105 text-xs sm:text-sm py-0.5">Gen Z</Badge>
               </div>
-              
+
               <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
                 The REACH Report x Dylan Huey is a biweekly newsletter breaking down the latest in marketing, social media, and the creator economy. Curated by Dylan Huey, CEO of REACH—the nation's largest influencer organization spanning 100+ college campuses—this report delivers sharp insights at the intersection of creators, brands, and technology.
               </p>
-              
+
               <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
                 From platform shifts and algorithm updates to creator monetization strategies and emerging tech trends, we cover what's driving digital marketing forward. Whether you're a brand, creator, or marketer, The REACH Report is your playbook for navigating the fast-evolving world of social media and creator-led marketing.
               </p>
             </div>
           </div>
         </div>
-        
+
         {/* Latest Insights Section */}
         <div className="mt-20 sm:mt-32 mb-16 sm:mb-20 relative">
           <div className="absolute -top-20 right-20 w-40 h-40 rounded-full bg-blue-100 blur-3xl opacity-30 animate-float-medium"></div>
           <div className="absolute -bottom-20 left-20 w-40 h-40 rounded-full bg-pink-100 blur-3xl opacity-30 animate-float-slow"></div>
-          
+
           <h2 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-10">Latest Insights</h2>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             {latestInsights.map((insight) => (
               <Card 
@@ -296,15 +332,15 @@ export default function Home() {
                       {insight.date}
                     </div>
                   </div>
-                  
+
                   <h3 className="font-bold text-base sm:text-lg mb-2 sm:mb-3 group-hover:text-indigo-700 transition-colors duration-300">
                     {insight.title}
                   </h3>
-                  
+
                   <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">
                     {insight.excerpt}
                   </p>
-                  
+
                   <div className="flex items-center text-indigo-600 text-xs sm:text-sm font-medium group-hover:text-indigo-800 transition-colors duration-300">
                     Read more
                     <ArrowRight size={12} className="ml-1 transition-transform duration-300 group-hover:translate-x-1" />
@@ -313,7 +349,7 @@ export default function Home() {
               </Card>
             ))}
           </div>
-          
+
           <div className="mt-6 sm:mt-8 text-center">
             <Button variant="outline" className="group text-sm sm:text-base">
               View all insights
@@ -321,11 +357,11 @@ export default function Home() {
             </Button>
           </div>
         </div>
-        
+
         {/* Why Join Our Community Section - No background gradients to ensure content visibility */}
         <div ref={statsRef} className="mt-20 sm:mt-32 mb-16 sm:mb-20 relative z-20">
           <h2 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-10">Why Join Our Community?</h2>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {/* Subscriber count card */}
             <Card className="p-4 sm:p-6 border-t-4 border-indigo-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden z-20">
@@ -338,11 +374,11 @@ export default function Home() {
               </div>
               <p className="text-gray-600 text-sm sm:text-base">subscribers and counting</p>
             </Card>
-            
+
             {/* Company logos card */}
             <Card className="p-4 sm:p-6 border-t-4 border-purple-500 hover:shadow-lg transition-all duration-300 group relative overflow-hidden z-20">
               <h3 className="font-bold text-base sm:text-lg mb-2 sm:mb-3">Read by executives from</h3>
-              
+
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 {['Meta', 'TikTok', 'Snapchat', 'LinkedIn', 'Triller', 'YouTube'].map((company, index) => (
                   <div 
@@ -361,12 +397,12 @@ export default function Home() {
             </Card>
           </div>
         </div>
-        
+
         {/* Final CTA */}
         <Card className="w-full max-w-md mx-auto p-5 sm:p-6 shadow-lg mt-16 sm:mt-20 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden group hover:shadow-xl transition-all duration-500">
           <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 blur-2xl opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
           <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 blur-2xl opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
-          
+
           <div className="mb-5 sm:mb-6 flex items-start">
             <div>
               <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Never miss an update</h3>
@@ -376,8 +412,8 @@ export default function Home() {
               <Bell className="text-indigo-500" size={isMobile ? 18 : 24} />
             </div>
           </div>
-          
-          <div className="space-y-3 sm:space-y-4 relative z-10">
+
+          <form onSubmit={handleSubscribe} className="space-y-3 sm:space-y-4 relative z-10">
             <div className="relative">
               <Input 
                 type="email" 
@@ -392,17 +428,18 @@ export default function Home() {
               }`}></div>
             </div>
             <Button 
+              type="submit"
               className="w-full bg-black text-white hover:bg-gray-800 group relative overflow-hidden h-10 sm:h-auto text-sm sm:text-base"
             >
               <span className="relative z-10">Subscribe for free</span>
               <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
             </Button>
-          </div>
-          
+          </form>
+
           <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
         </Card>
       </main>
-      
+
       <SiteFooter isMobile={isMobile} />
     </div>
   );
