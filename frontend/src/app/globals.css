@@ -92,12 +92,6 @@ h1, h2, h3, h4, h5, h6 {
   60% { transform: rotate(0); }
 }
 
-@keyframes ring {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(10deg); }
-  75% { transform: rotate(-10deg); }
-}
-
 .animate-float-slow {
   animation: float-slow 20s infinite ease-in-out;
 }
@@ -120,10 +114,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-bell {
   animation: bell 1s ease-in-out;
-}
-
-.animate-ring {
-  animation: ring 0.3s ease-in-out;
 }
 
 /* Card hover effects */
