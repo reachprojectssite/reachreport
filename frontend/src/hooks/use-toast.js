@@ -1,6 +1,6 @@
 "use client";
 
-import { useToast as useToastOriginal } from "@/hooks/use-toast";
+import { useToast as useToastOriginal } from "@/components/ui/toast";
 
 // Re-export with performance optimizations
 export function useToast() {
