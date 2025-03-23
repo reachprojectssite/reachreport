@@ -532,6 +532,10 @@ export default function Home() {
                   </form>
                 </DialogContent>
               </Dialog>
+              
+              <button className="text-gray-600 hover:text-indigo-600 transition-colors text-sm sm:text-base">
+                Privacy Policy
+              </button>
             </div>
           </div>
         </div>
