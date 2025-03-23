@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 
 export function useIsMobile() {
-  // Start with a reasonable default based on common mobile breakpoint
-  const [isMobile, setIsMobile] = useState(false);
+  // Start with null to avoid hydration mismatch
+  const [isMobile, setIsMobile] = useState(null);
   
   // Memoize the resize handler
   const handleResize = useCallback(() => {
@@ -24,5 +24,6 @@ export function useIsMobile() {
     };
   }, [handleResize]);
 
-  return isMobile;
+  // Return false during SSR, then the actual value after hydration
+  return isMobile === null ? false : isMobile;
 }
