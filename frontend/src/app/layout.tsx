@@ -1,3 +1,4 @@
+import React from 'react'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 import { Toaster } from "@/components/ui/sonner"
@@ -13,11 +14,13 @@ export const metadata = {
   },
 }
 
+interface RootLayoutProps {
+  children: React.ReactNode
+}
+
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: RootLayoutProps) {
   return (
     <html lang="en">
       <head>

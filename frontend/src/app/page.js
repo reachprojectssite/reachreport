@@ -43,21 +43,21 @@ export default function Home() {
   
   const words = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
   
-  // Handle client-side mounting
+  // Mount effect
   useEffect(() => {
     setMounted(true);
-    return () => setMounted(false);
   }, []);
 
   // Word rotation effect
   useEffect(() => {
     if (!mounted) return;
-    
+
     const interval = setInterval(() => {
       setCurrentWord((prev) => (prev + 1) % words.length);
     }, 2000);
+
     return () => clearInterval(interval);
-  }, [mounted]);
+  }, [mounted, words]);
 
   // Subscriber counter animation
   useEffect(() => {
@@ -113,14 +113,14 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [mounted]);
 
-  // Fetch latest posts on mount
+  // Fetch latest posts effect
   useEffect(() => {
     const fetchLatestPosts = async () => {
       try {
         const response = await fetch("/api/rss-feed");
         if (!response.ok) throw new Error("Failed to fetch RSS feed");
         const data = await response.json();
-        setLatestPosts(data.slice(0, 3)); // Get latest 3 posts
+        setLatestPosts(data.slice(0, 3));
       } catch (err) {
         console.error("Error fetching RSS feed:", err);
       }
