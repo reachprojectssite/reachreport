@@ -21,14 +21,37 @@ export function ArchivesModal({ children }) {
   const [error, setError] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
 
-  // Check localStorage for existing email on mount
+  // Check localStorage and validate subscription on mount
   useEffect(() => {
-    const storedEmail = localStorage.getItem("archivesEmail");
-    if (storedEmail && EMAIL_REGEX.test(storedEmail)) {
-      setEmail(storedEmail);
-      setIsValidEmail(true);
-      fetchPosts();
-    }
+    const validateSubscription = async () => {
+      const storedEmail = localStorage.getItem("archivesEmail");
+      if (storedEmail && EMAIL_REGEX.test(storedEmail)) {
+        try {
+          const { data, error } = await supabase
+            .from('subscribers')
+            .select('email')
+            .eq('email', storedEmail)
+            .single();
+
+          if (error) {
+            console.error('Error validating subscription:', error);
+            localStorage.removeItem("archivesEmail");
+            return;
+          }
+
+          if (data) {
+            setEmail(storedEmail);
+            setIsValidEmail(true);
+            fetchPosts();
+          }
+        } catch (err) {
+          console.error('Subscription validation error:', err);
+          localStorage.removeItem("archivesEmail");
+        }
+      }
+    };
+
+    validateSubscription();
   }, []);
 
   const handleEmailSubmit = async (e) => {
@@ -41,11 +64,15 @@ export function ArchivesModal({ children }) {
     setIsLoading(true);
     try {
       // Check if email already exists in subscribers table
-      const { data: existingSubscriber } = await supabase
+      const { data: existingSubscriber, error: queryError } = await supabase
         .from('subscribers')
         .select('email')
         .eq('email', email)
         .single();
+
+      if (queryError && queryError.code !== 'PGRST116') { // PGRST116 is "not found" error
+        throw queryError;
+      }
 
       if (existingSubscriber) {
         // If subscriber exists, just grant access
@@ -57,9 +84,22 @@ export function ArchivesModal({ children }) {
         // If not a subscriber, add them
         const { error: insertError } = await supabase
           .from('subscribers')
-          .insert([{ email }]);
+          .insert([{ 
+            email,
+            subscribed_at: new Date().toISOString()
+          }]);
 
-        if (insertError) throw insertError;
+        if (insertError) {
+          if (insertError.code === '23505') { // Unique violation
+            // Email already exists (race condition), just grant access
+            setIsValidEmail(true);
+            localStorage.setItem("archivesEmail", email);
+            fetchPosts();
+            toast.info("Welcome back! Accessing archives...");
+            return;
+          }
+          throw insertError;
+        }
 
         // Grant access and show success message
         setIsValidEmail(true);
@@ -68,8 +108,8 @@ export function ArchivesModal({ children }) {
         toast.success("Welcome! You're now subscribed and can access the archives.");
       }
     } catch (error) {
-      console.error('Error:', error);
-      toast.error("Something went wrong. Please try again.");
+      console.error('Subscription error:', error);
+      toast.error(error.message || "Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }

@@ -350,38 +350,51 @@ const SiteFooter = ({ isMobile }) => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Validate required fields
+    if (!contactForm.email || !contactForm.message) {
+      toast.error('Email and message are required');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(contactForm.email)) {
+      toast.error('Please enter a valid email address');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('contact_messages')
         .insert([
           {
-            name: contactForm.name,
+            name: contactForm.name || null,
             email: contactForm.email,
-            phone: contactForm.phone,
             message: contactForm.message,
             created_at: new Date().toISOString()
           }
         ]);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Contact submission error:', error);
+        throw error;
+      }
+
+      // Reset form
+      setContactForm({
+        name: '',
+        email: '',
+        message: ''
+      });
 
       // Show success message
-      toast.success('Message sent successfully!', {
-        className: 'bg-green-50 text-green-800 border-green-200',
-        icon: '✨'
-      });
+      toast.success('Message sent successfully!');
       
-    // Reset form
-    setContactForm(initialFormState);
-      
-      // Close the dialog
-      const closeButton = document.querySelector('[data-dialog-close]');
-      if (closeButton) closeButton.click();
     } catch (error) {
-      console.error('Error submitting form:', error);
-      toast.error('Failed to send message. Please try again.', {
-        className: 'bg-red-50 text-red-800 border-red-200'
-      });
+      console.error('Contact form error:', error);
+      toast.error(error.message || 'Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
