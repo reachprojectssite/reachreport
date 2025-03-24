@@ -7,6 +7,12 @@ publish = ".next"
 
 [build.environment]
 NODE_VERSION = "20.11.1"
+NEXT_PUBLIC_SUPABASE_URL = "https://azlwbbuuedyneuymwgpa.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6bHdiYnV1ZWR5bmV1eW13Z3BhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2OTQ2MzQsImV4cCI6MjA1ODI3MDYzNH0.riFEO0cL-WM_E1AC6xPu4MR8pwFZYRhdPe3dQAcCqaM"
+
+[context.production.environment]
+NEXT_PUBLIC_SUPABASE_URL = "https://azlwbbuuedyneuymwgpa.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6bHdiYnV1ZWR5bmV1eW13Z3BhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2OTQ2MzQsImV4cCI6MjA1ODI3MDYzNH0.riFEO0cL-WM_E1AC6xPu4MR8pwFZYRhdPe3dQAcCqaM"
 
 [[headers]]
   for = "/*"
