@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useState } from "react";
+import { memo, useState, useRef } from "react";
 import { ExternalLink, Send, Heart } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -14,12 +14,11 @@ import { toast } from "sonner";
 const initialFormState = {
   name: "",
   email: "",
-  phone: "",
   message: ""
 };
 
 // Memoize static content
-const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit, contactForm, isSubmitting }) => (
+const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit, contactForm, isSubmitting, dialogRef, closeButtonRef }) => (
   <footer className="relative border-t border-gray-200 py-6 sm:py-8 px-4">
     {/* Background gradient with reduced opacity */}
     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50 pointer-events-none" />
@@ -60,6 +59,7 @@ const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit
               </button>
             </DialogTrigger>
             <DialogContent 
+              ref={dialogRef}
               className="w-[min(calc(100%-2rem),480px)] sm:w-[min(95vw,480px)] md:w-[min(90vw,480px)] h-[min(calc(100vh-2rem),600px)] sm:h-[min(85vh,600px)] p-0 border-0 shadow-xl overflow-hidden rounded-lg bg-white/80 backdrop-blur-sm flex flex-col data-[state=open]:duration-300"
             >
               {/* Gradient background */}
@@ -84,7 +84,7 @@ const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit
               {/* Scrollable content */}
               <div className="relative flex-1 overflow-y-auto">
                 <div className="p-4 sm:p-6">
-                  <form onSubmit={handleContactSubmit} className="space-y-4">
+                  <form id="contact-form" onSubmit={handleContactSubmit} className="space-y-4">
                     <div className="space-y-2">
                       <Label htmlFor="name" className="text-sm font-medium text-gray-700">Name</Label>
                   <Input 
@@ -92,10 +92,9 @@ const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit
                     name="name" 
                     value={contactForm.name} 
                     onChange={handleContactChange} 
-                    required 
-                        className="h-11 sm:h-12 bg-white/50 backdrop-blur-sm border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-colors text-base"
-                        placeholder="Your name"
-                        disabled={isSubmitting}
+                    className="h-11 sm:h-12 bg-white/50 backdrop-blur-sm border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-colors text-base"
+                    placeholder="Your name"
+                    disabled={isSubmitting}
                   />
                 </div>
                     <div className="space-y-2">
@@ -107,22 +106,9 @@ const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit
                     value={contactForm.email} 
                     onChange={handleContactChange} 
                     required 
-                        className="h-11 sm:h-12 bg-white/50 backdrop-blur-sm border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-colors text-base"
-                        placeholder="your@email.com"
-                        disabled={isSubmitting}
-                  />
-                </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number (Optional)</Label>
-                  <Input 
-                    id="phone" 
-                    name="phone" 
-                    type="tel" 
-                    value={contactForm.phone} 
-                    onChange={handleContactChange} 
-                        className="h-11 sm:h-12 bg-white/50 backdrop-blur-sm border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-colors text-base"
-                        placeholder="+1 (555) 000-0000"
-                        disabled={isSubmitting}
+                    className="h-11 sm:h-12 bg-white/50 backdrop-blur-sm border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-colors text-base"
+                    placeholder="your@email.com"
+                    disabled={isSubmitting}
                   />
                 </div>
                     <div className="space-y-2">
@@ -134,9 +120,9 @@ const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit
                     value={contactForm.message} 
                     onChange={handleContactChange} 
                     required 
-                        className="bg-white/50 backdrop-blur-sm border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-colors resize-none text-base"
-                        placeholder="Your message..."
-                        disabled={isSubmitting}
+                    className="bg-white/50 backdrop-blur-sm border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-colors resize-none text-base"
+                    placeholder="Your message..."
+                    disabled={isSubmitting}
                   />
                     </div>
                   </form>
@@ -148,6 +134,7 @@ const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit
                 <div className="flex justify-end gap-3">
                   <DialogClose asChild>
                     <Button 
+                      ref={closeButtonRef}
                       variant="outline" 
                       type="button" 
                       className="h-11 sm:h-12 px-6 border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 text-base"
@@ -157,9 +144,14 @@ const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit
                     </Button>
                   </DialogClose>
                   <Button 
-                    type="submit" 
+                    type="submit"
+                    form="contact-form"
                     className="h-11 sm:h-12 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white transition-all duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-indigo-500/20 text-base"
                     disabled={isSubmitting}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('contact-form').requestSubmit();
+                    }}
                   >
                     {isSubmitting ? (
                       <>
@@ -169,7 +161,7 @@ const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit
                     ) : (
                       <>
                         <Send size={18} className="transition-transform duration-200 group-hover:translate-x-0.5" />
-                    Send Message
+                        Send Message
                       </>
                     )}
                   </Button>
@@ -337,6 +329,8 @@ FooterContent.displayName = 'FooterContent';
 const SiteFooter = ({ isMobile }) => {
   const [contactForm, setContactForm] = useState(initialFormState);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const dialogRef = useRef(null);
+  const closeButtonRef = useRef(null);
 
   const handleContactChange = (e) => {
     const { name, value } = e.target;
@@ -348,22 +342,13 @@ const SiteFooter = ({ isMobile }) => {
 
   const handleContactSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    // Validate required fields
+    
     if (!contactForm.email || !contactForm.message) {
       toast.error('Email and message are required');
-      setIsSubmitting(false);
       return;
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(contactForm.email)) {
-      toast.error('Please enter a valid email address');
-      setIsSubmitting(false);
-      return;
-    }
+    setIsSubmitting(true);
 
     try {
       const { error } = await supabase
@@ -383,14 +368,13 @@ const SiteFooter = ({ isMobile }) => {
       }
 
       // Reset form
-      setContactForm({
-        name: '',
-        email: '',
-        message: ''
-      });
-
+      setContactForm(initialFormState);
+      
       // Show success message
       toast.success('Message sent successfully!');
+
+      // Close dialog by clicking the cancel button
+      closeButtonRef.current?.click();
       
     } catch (error) {
       console.error('Contact form error:', error);
@@ -401,12 +385,14 @@ const SiteFooter = ({ isMobile }) => {
   };
 
   return (
-    <FooterContent 
+    <FooterContent
       isMobile={isMobile}
       handleContactChange={handleContactChange}
       handleContactSubmit={handleContactSubmit}
       contactForm={contactForm}
       isSubmitting={isSubmitting}
+      dialogRef={dialogRef}
+      closeButtonRef={closeButtonRef}
     />
   );
 };
