@@ -71,14 +71,14 @@ const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit
               
               {/* Header - Fixed on mobile */}
               <div className="relative p-4 sm:p-6 border-b border-gray-100 bg-white/50 backdrop-blur-sm">
-                <DialogHeader>
+              <DialogHeader>
                   <DialogTitle className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                     Get in Touch
                   </DialogTitle>
                   <DialogDescription className="text-sm sm:text-base text-gray-600">
                     Have a question or want to collaborate? We'd love to hear from you.
-                  </DialogDescription>
-                </DialogHeader>
+                </DialogDescription>
+              </DialogHeader>
               </div>
 
               {/* Scrollable content */}
@@ -87,57 +87,57 @@ const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit
                   <form onSubmit={handleContactSubmit} className="space-y-4">
                     <div className="space-y-2">
                       <Label htmlFor="name" className="text-sm font-medium text-gray-700">Name</Label>
-                      <Input 
-                        id="name" 
-                        name="name" 
-                        value={contactForm.name} 
-                        onChange={handleContactChange} 
-                        required 
+                  <Input 
+                    id="name" 
+                    name="name" 
+                    value={contactForm.name} 
+                    onChange={handleContactChange} 
+                    required 
                         className="h-11 sm:h-12 bg-white/50 backdrop-blur-sm border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-colors text-base"
                         placeholder="Your name"
                         disabled={isSubmitting}
-                      />
-                    </div>
+                  />
+                </div>
                     <div className="space-y-2">
                       <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email</Label>
-                      <Input 
-                        id="email" 
-                        name="email" 
-                        type="email" 
-                        value={contactForm.email} 
-                        onChange={handleContactChange} 
-                        required 
+                  <Input 
+                    id="email" 
+                    name="email" 
+                    type="email" 
+                    value={contactForm.email} 
+                    onChange={handleContactChange} 
+                    required 
                         className="h-11 sm:h-12 bg-white/50 backdrop-blur-sm border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-colors text-base"
                         placeholder="your@email.com"
                         disabled={isSubmitting}
-                      />
-                    </div>
+                  />
+                </div>
                     <div className="space-y-2">
                       <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number (Optional)</Label>
-                      <Input 
-                        id="phone" 
-                        name="phone" 
-                        type="tel" 
-                        value={contactForm.phone} 
-                        onChange={handleContactChange} 
+                  <Input 
+                    id="phone" 
+                    name="phone" 
+                    type="tel" 
+                    value={contactForm.phone} 
+                    onChange={handleContactChange} 
                         className="h-11 sm:h-12 bg-white/50 backdrop-blur-sm border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-colors text-base"
                         placeholder="+1 (555) 000-0000"
                         disabled={isSubmitting}
-                      />
-                    </div>
+                  />
+                </div>
                     <div className="space-y-2">
                       <Label htmlFor="message" className="text-sm font-medium text-gray-700">Message</Label>
-                      <Textarea 
-                        id="message" 
-                        name="message" 
-                        rows={4} 
-                        value={contactForm.message} 
-                        onChange={handleContactChange} 
-                        required 
+                  <Textarea 
+                    id="message" 
+                    name="message" 
+                    rows={4} 
+                    value={contactForm.message} 
+                    onChange={handleContactChange} 
+                    required 
                         className="bg-white/50 backdrop-blur-sm border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 transition-colors resize-none text-base"
                         placeholder="Your message..."
                         disabled={isSubmitting}
-                      />
+                  />
                     </div>
                   </form>
                 </div>
@@ -169,7 +169,7 @@ const FooterContent = memo(({ isMobile, handleContactChange, handleContactSubmit
                     ) : (
                       <>
                         <Send size={18} className="transition-transform duration-200 group-hover:translate-x-0.5" />
-                        Send Message
+                    Send Message
                       </>
                     )}
                   </Button>
@@ -371,8 +371,8 @@ const SiteFooter = ({ isMobile }) => {
         icon: '✨'
       });
       
-      // Reset form
-      setContactForm(initialFormState);
+    // Reset form
+    setContactForm(initialFormState);
       
       // Close the dialog
       const closeButton = document.querySelector('[data-dialog-close]');
