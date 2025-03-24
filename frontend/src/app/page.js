@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -41,7 +41,7 @@ export default function Home() {
   const [selectedPost, setSelectedPost] = useState(null);
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
   
-  const words = ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"];
+  const words = useMemo(() => ["CREATORS", "INFLUENCERS", "VISIONARIES", "INNOVATORS"], []);
   
   // Mount effect
   useEffect(() => {
