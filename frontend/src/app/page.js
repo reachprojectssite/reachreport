@@ -288,8 +288,10 @@ export default function Home() {
           onMouseLeave={handleMouseLeave}
         >
           <div className="mb-5 sm:mb-6">
-            <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Join the community</h3>
-            <p className="text-gray-600 text-sm sm:text-base">Get the latest insights biweekly.</p>
+            <div className="flex flex-col gap-2">
+              <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Join The Newsletter</h3>
+              <p className="text-sm sm:text-base text-gray-600">Get the latest articles biweekly to your inbox</p>
+            </div>
           </div>
 
           <form onSubmit={handleSubscribe} className="space-y-3 sm:space-y-4 relative z-10">
@@ -339,7 +341,7 @@ export default function Home() {
         </Card>
 
         {/* About Section */}
-        <div className="mt-20 sm:mt-32 mb-16 sm:mb-20 relative">
+        <div className="mt-24 sm:mt-32 mb-24 sm:mb-32 relative">
           <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full bg-indigo-100 blur-3xl opacity-30 animate-float-slow"></div>
           <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-purple-100 blur-3xl opacity-30 animate-float-medium"></div>
 
@@ -382,8 +384,8 @@ export default function Home() {
         </div>
 
         {/* Latest Posts section */}
-        <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-12 sm:mt-16">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-10">Latest Posts</h2>
+        <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-24 sm:mt-32">
+          <h2 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-10">Latest Posts</h2>
           <div className={`grid gap-6 md:gap-8 ${
             latestPosts.length === 1 ? 'grid-cols-1 max-w-xl mx-auto' : 
             latestPosts.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto' :
@@ -413,8 +415,8 @@ export default function Home() {
         </div>
 
         {/* Why Join Our Community Section - No background gradients to ensure content visibility */}
-        <div ref={statsRef} className="mt-20 sm:mt-32 mb-16 sm:mb-20 relative z-20">
-          <h2 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-10">Why Join Our Community?</h2>
+        <div ref={statsRef} className="mt-24 sm:mt-32 mb-24 sm:mb-32 relative z-20">
+          <h2 className="text-xl sm:text-2xl font-bold text-center mb-8 sm:mb-10">Why Join Our Newsletter?</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             {/* Subscriber count card */}
@@ -453,7 +455,7 @@ export default function Home() {
         </div>
 
         {/* Final CTA */}
-        <Card className="w-full max-w-md mx-auto p-5 sm:p-6 shadow-lg mt-16 sm:mt-20 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden group hover:shadow-xl transition-all duration-500">
+        <Card className="w-full max-w-md mx-auto p-5 sm:p-6 shadow-lg mt-24 sm:mt-32 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden group hover:shadow-xl transition-all duration-500">
           <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 blur-2xl opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
           <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 blur-2xl opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useState, useRef } from "react";
-import { ExternalLink, Send, Heart } from "lucide-react";
+import { ExternalLink, Send, Heart, Mail } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
